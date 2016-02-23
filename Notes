@@ -1,0 +1,39 @@
+Admissions table::
+
+
+user_id: ascending
+full_name: string
+email: string
+github: string
+prefered_location: string
+created_at: new Date()
+interviewed_on: Array of new Date()
+can_inteview_next: new Date() (set by interviewer)
+hard_reject: boolean
+No Show: Array of new Date() (Check for length more than one to put in hard reject)
+MakerPrep: boolean
+
+
+
+If booking before blackout period is over, let them book and then send a flag to admissions
+
+var x = 12; //or whatever offset
+var CurrentDate = new Date();
+CurrentDate.setMonth(CurrentDate.getMonth() + x);
+
+
+testing flow:  test - post/get request - api listener - model/dataLayer --> test passes
+
+almost like a user story:
+
+it("should return user info by ID", function  () {
+
+    var userData = yield request(app)
+      .get('/api/admissions/users/' + res.body.id)
+      .expect(200)
+      .expect(function(response) {
+        var user = response.body
+        return user
+      })
+
+  })
