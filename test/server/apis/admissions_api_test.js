@@ -9,17 +9,13 @@ describe("The Server", function() {
   app.use('/', routes)
   app.testReady()
 
-  it_("serves an example endpoint", function * () {
 
-    //
-    // Notice how we're in a generator function (indicated by the the *)
-    // See test/test-helper.js for details of why this works.
-    //
+  it_("serves an endpoint", function * () {
     yield request(app)
-      .get('/api/tags-example')
+      .get('/api/admissions/interview')
       .expect(200)
-      .expect(function(response) {
-        expect(response.body).to.include('node')
-      })
+      // .expect(function(response){
+      //   expect(response.body).to.include({})
+      // })
   })
 })
