@@ -9,17 +9,16 @@ router.post('/', function (req, res) {
   Interview.create({
     user: req.user,
     ip: req.ip,
-    question: req.body.question,
-    group: req.params.group_uid
+    name: req.body.name,
   })
-  .then(function(ticket) {
-    res.status(201).send(ticket);
+  .then(function(interview) {
+    res.status(201).send(interview);
   })
-  .catch( Interview.GreedyUser, API.prep(400, res) )
+  // .catch( Interview.GreedyUser, API.prep(400, res) )
   .catch( API.catchErrors(res) )
 })
 
-router.get('/admissions/interview', function(req, res){
-  res.status(200)
-  .catch( API.catchErrors(res))
-})
+// router.get('/', function(req, res){
+//   res.status(200)
+//   .catch( API.catchErrors(res))
+// })

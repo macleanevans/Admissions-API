@@ -10,15 +10,11 @@ var interview_storage
 var counter = 0;
 
 Interview.create = function(interview) {
-  if (allowNewInterview(interview)) {
+
     interview_storage[counter] = interview
     interview.id = counter
-    interview.status = 'open'
     counter++
     return Promise.resolve(interview)
-  } else {
-    return Promise.reject(new Interview.GreedyUser())
-  }
 }
 
 Interview.fetch = function(id) {
