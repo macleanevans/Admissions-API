@@ -1,21 +1,51 @@
-var browserify = require('browserify-middleware')
-var express = require('express')
 var Path = require('path')
+var express = require('express')
+var bodyParser = require('body-parser')
+var browserify = require('browserify-middleware')
+
 
 var routes = express.Router()
+var port = process.env.PORT || 4000
+var host = process.env.HOST || 'http://localhost:' + port
 
 //
-// Provide a browserified file at a specified path
+// JavaScript Assets
 //
 routes.get('/app-bundle.js',
   browserify('./client/app.js'))
 
+// Sessions
+var session = require('cookie-session')
+routes.use(session({
+  name: 'learn:session',
+  secret: process.env.SESSION_SECRET || 'development',
+  secure: (!! process.env.SESSION_SECRET),
+  signed: true
+}))
+
+// Parse request body as JSON
+routes.use(bodyParser.json())
+
 //
-// Example endpoint (also tested in test/server/index_test.js)
+// API Routes
 //
-routes.get('/api/tags-example', function(req, res) {
-  res.send(['node', 'express', 'browserify', 'mithril'])
-})
+var API = require('./lib/api-helpers')
+
+require('./makerpass').mount(routes, host)
+
+routes.use('/api/me',
+  API.authSession(),
+  require('./apis/account-api')
+)
+
+routes.use('/api/groups/:group_uid/status',
+  API.fetchGroups,
+  API.authMembership('group_uid'),
+  require('./apis/status-api')
+)
+
+routes.get('/api/*', function(req, res) {
+  res.status(404).send({ reason: 'No such API endpoint' }) })
 
 //
 // Static assets (html, etc.)
@@ -47,7 +77,6 @@ if (process.env.NODE_ENV !== 'test') {
   app.use('/', routes)
 
   // Start the server!
-  var port = process.env.PORT || 4000
   app.listen(port)
   console.log("Listening on port", port)
 }
