@@ -13,11 +13,12 @@
     "bluebird": "^3.2.2",
     "body-parser": "^1.14.1",
     "browserify-middleware": "^5.0.2",
+    "cookie-session": "^1.2.0",
     "express": "^4.12.4",
     "mithril": "^0.2.0",
     "node-makerpass": "^1.0.4",
     "passport": "^0.3.2",
-
+    "passport-makerpass": "^2.0.0"
   },
   "devDependencies": {
     "chai": "^3.4.0",
