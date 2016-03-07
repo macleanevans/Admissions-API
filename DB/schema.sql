@@ -16,32 +16,32 @@ CREATE TABLE interviews (
   personal_grade  INTEGER,
   makerPrep  INTEGER,
   notes varchar(250),
-  PRIMARY KEY interview_id
+  PRIMARY KEY (interview_id)
 );
 
 CREATE TABLE decision(
-  descision_id SERIAL,
+  decision_id SERIAL,
   description varchar(50),
-  PRIMARY KEY descision_id
+  PRIMARY KEY (decision_id)
 );
 
 CREATE TABLE grades(
   grade_id SERIAL,
   description varchar(10),
-  PRIMARY KEY grade_id
+  PRIMARY KEY (grade_id)
 );
 
 CREATE TABLE makerPrep (
   makerPrep_id SERIAL,
   description varchar(10),
-  PRIMARY KEY makerPrep_id
+  PRIMARY KEY (makerPrep_id)
 );
 
 CREATE TABLE interviewer(
   interviewer_id SERIAL,
   first_name varchar(30),
   last_name varchar(30),
-  PRIMARY KEY interviewer_id
+  PRIMARY KEY (interviewer_id)
 );
 
 ALTER TABLE interviews ADD FOREIGN KEY (decision) REFERENCES decision (decision_id);

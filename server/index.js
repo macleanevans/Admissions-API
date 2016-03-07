@@ -2,6 +2,8 @@ var Path = require('path')
 var express = require('express')
 var bodyParser = require('body-parser')
 var browserify = require('browserify-middleware')
+var pg = require('pg');
+var connectString = process.env.DATABASE_URL || 'postgres://localhost:5432/test';
 
 
 var routes = express.Router()
