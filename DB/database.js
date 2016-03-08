@@ -1,2 +1,5 @@
 var pg = require('pg');
-var connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/todo';
+
+TestDB.connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/test';
+
+var TestDB = module.exports;
