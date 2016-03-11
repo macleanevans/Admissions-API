@@ -68,8 +68,8 @@ describe("The Server", function() {
   it_("set a soft reject blackout period", function * (){
 
     var res = yield request(app)
-      .post('/api/admissions/interview')
-      .send({date: "2016-03-02"})
+      .post('/api/admissions/interview/blackout')
+      .send({date: "2016-03-02", blackout: 1})
       .expect(201)
       .expect(function(response){
         var interview = response.body
@@ -175,3 +175,18 @@ it_("should notify user they are in a blackout period", function * (){
 //makerpass interviewer ID
 //Look at youCanBookMe google drive creation
 //Reject situational (personal vs technical)
+
+//Things I really need
+
+//Users Tables
+//Interviews Tables
+//Interviewer Table
+
+
+
+//Can store an interview with intervieweeID(created on first), firstname, lastname, email, github, interview date, blackoutPeriod
+
+//you can look up all interview by interveweeID
+
+//After an interview you can select the interview by intervieweeID and date
+  //Once selected you can add: interviewerID, decision, technical grade, personal grade, MakerPrep(Y/N), notes
