@@ -8,10 +8,25 @@ var Interview = module.exports;
 
 
 Interview.create = function(req, res){
-  client.query('INSERT INTO interviews', function(err, response){
+  client.query('INSERT INTO interviews (user_id, interviewer_id, decision, technical_grade, personal_grade, maker_prep, notes) VALUES ', function(err, response){
     //Need to run Select statments for all the foreign keys we are placing in
+    INSERT INTO bar (description, foo_id) VALUES
+    ( 'testing',     (SELECT id from foo WHERE type='blue') ),
+    ( 'another row', (SELECT id from foo WHERE type='red' ) );
   })
 }
+
+INSERT INTO interviews (user_id, interviewer_id, decision, technical_grade, personal_grade, maker_prep, notes) VALUES
+( '')
+
+user_id INTEGER,
+interviewer_id INTEGER,
+decision INTEGER,
+technical_grade INTEGER,
+personal_grade  INTEGER,
+maker_prep  INTEGER,
+notes varchar(250),
+PRIMARY KEY (interview_id)
 
 
 

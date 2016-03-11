@@ -39,8 +39,7 @@ CREATE TABLE maker_prep (
 
 CREATE TABLE interviewer(
   interviewer_id SERIAL,
-  first_name varchar(30),
-  last_name varchar(30),
+  full_name = varchar(70),
   PRIMARY KEY (interviewer_id)
 );
 
