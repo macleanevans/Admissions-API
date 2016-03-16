@@ -8,27 +8,15 @@ var Interview = module.exports;
 
 
 Interview.create = function(req, res){
-  client.query('INSERT INTO interviews (user_id, interviewer_id, decision, technical_grade, personal_grade, maker_prep, notes) VALUES ', function(err, response){
-    //Need to run Select statments for all the foreign keys we are placing in
-    INSERT INTO bar (description, foo_id) VALUES
-    ( 'testing',     (SELECT id from foo WHERE type='blue') ),
-    ( 'another row', (SELECT id from foo WHERE type='red' ) );
+  client.query('INSERT INTO interviews (user_id, interviewer_id, decision_id, technical_grade, personal_grade, maker_prep_id, notes)  SELECT user_id, interviewer_id, decision_id, technical_grade, personal_grade, maker_prep_id, $1 FROM users, interviewer, decision, grades tech, grades personal, maker_prep WHERE users.email = $2 AND interviewer.full_name = $3 AND decision.descripition = $4 AND tech.description = $5 AND personal.description = $6 AND maker_prep.description = $7 ', [req.notes, req.email, req.interviewer, req.decision, req.technicalGrade, req.personalGrade, req.makerPrep], , function(err, response){
+    if(err){
+      res.status(401).send()
+    } else {
+      res.status(201).send()
+    }
+
   })
 }
-
-INSERT INTO interviews (user_id, interviewer_id, decision, technical_grade, personal_grade, maker_prep, notes) VALUES
-( '')
-
-user_id INTEGER,
-interviewer_id INTEGER,
-decision INTEGER,
-technical_grade INTEGER,
-personal_grade  INTEGER,
-maker_prep  INTEGER,
-notes varchar(250),
-PRIMARY KEY (interview_id)
-
-
 
 
 Interview.deleteEverything = function() {
