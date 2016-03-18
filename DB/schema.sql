@@ -11,11 +11,11 @@ CREATE TABLE interviews (
   interview_id SERIAL,
   user_id INTEGER,
   interviewer_id INTEGER,
-  decision INTEGER,
+  decision_id INTEGER,
   technical_grade INTEGER,
   personal_grade  INTEGER,
   maker_prep  INTEGER,
-  notes varchar(250),
+  notes varchar(400),
   PRIMARY KEY (interview_id)
 );
 
@@ -34,16 +34,16 @@ CREATE TABLE grades(
 CREATE TABLE maker_prep (
   maker_prep_id SERIAL,
   description varchar(10),
-  PRIMARY KEY (makerPrep_id)
+  PRIMARY KEY (maker_prep_id)
 );
 
 CREATE TABLE interviewer(
   interviewer_id SERIAL,
-  full_name = varchar(70),
+  full_name varchar(70),
   PRIMARY KEY (interviewer_id)
 );
 
-ALTER TABLE interviews ADD FOREIGN KEY (decision) REFERENCES decision (decision_id);
+ALTER TABLE interviews ADD FOREIGN KEY (decision_id) REFERENCES decision (decision_id);
 ALTER TABLE interviews ADD FOREIGN KEY (technical_grade) REFERENCES grades (grade_id);
 ALTER TABLE interviews ADD FOREIGN KEY (personal_grade) REFERENCES grades (grade_id);
 ALTER TABLE interviews ADD FOREIGN KEY (maker_prep) REFERENCES maker_prep (maker_prep_id);
@@ -51,10 +51,4 @@ ALTER TABLE interviews ADD FOREIGN KEY (interviewer_id) REFERENCES interviewer (
 ALTER TABLE interviews ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
 
 
-
-
-//Things I really need
-
-//Users Tables
-//Interviews Tables
-//Interviewer Table
+INSERT INTO decision (description) VALUES ('soft reject');
