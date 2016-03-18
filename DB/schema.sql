@@ -15,7 +15,7 @@ CREATE TABLE interviews (
   technical_grade INTEGER,
   personal_grade  INTEGER,
   maker_prep  INTEGER,
-  notes varchar(250),
+  notes varchar(400),
   PRIMARY KEY (interview_id)
 );
 
@@ -51,10 +51,4 @@ ALTER TABLE interviews ADD FOREIGN KEY (interviewer_id) REFERENCES interviewer (
 ALTER TABLE interviews ADD FOREIGN KEY (user_id) REFERENCES users(user_id);
 
 
-
-
-//Things I really need
-
-//Users Tables
-//Interviews Tables
-//Interviewer Table
+INSERT INTO decision (description) VALUES ('soft reject');
