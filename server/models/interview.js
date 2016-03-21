@@ -25,15 +25,20 @@ Interview.create = function(req, res){
 
 Interview.showAll = function(req, res){
   //show all interviews by user
-  client.query('SELECT interview_id FROM interviews WHERE users.email = $1', [req.email], function(err, response){
-    if(err){
-      res.status(401).send();
-    } else if(response.rows.length === 0){
-      res.status(200).send({message: "No interviews by this user...yet"})
-    } else {
-      res.status(200).send(response.rows);
+  pg.connect(TestDB.connectString, function(err, client, done){
+    client.query('SELECT interview_id FROM interviews WHERE users.email = $1', [req.email], function(err, response){
+      if(err){
+        done();
+        res.status(401).send();
+      } else if(response.rows.length === 0){
+        done();
+        res.status(200).send({message: "No interviews by this user...yet"})
+      } else {
+        done();
+        res.status(200).send(response.rows);
+        }
       }
-    }
+    })
   })
 }
 
