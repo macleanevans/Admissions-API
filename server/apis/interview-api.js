@@ -10,19 +10,24 @@ var router = module.exports = express.Router({ mergeParams: true })
 "http://example.com/api/crm/AppointmentCreated?name={applicant_name}&email={email}&github={github}"
 
 router.get('/', function (req, res) {
+  //need to figure out how to section of the sent url into a req object
   Users.check(req,res)
 })
 
-router.get('/:id', function(req, res){
-  console.log("hopeful id", req.params.id)
-  Interview.fetch(req.params.id)
-    .then(function(interview) {
-    res.status(200)
-    res.send(interview)
-  })
-  .catch( API.catchErrors(res))
+router.get('/interviews/:id', function(req, res){
+  //get all interviews by a user id
+  Interview.showAll(req, res);
+})
+
+router.post('/create', function(req, res){
+  //create an interviw
+  Interview.create(req, res);
+})
+
+router.post('/interviewer', function(req, res) {
+  Interviewer.create(req, res);
 })
 
 router.post('/blackout/:id', function(req, res){
-
+  Users.setBlackout(req, res);
 })
