@@ -4,21 +4,23 @@
   "description": "A rapid project starter for node and browserify.",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon server/ --ignore client/",
+    "start": "nodemon server/index.js --ignore client/",
     "test": "./test/run.sh"
   },
   "author": "Gilbert <gilbertbagrza@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.2.2",
+    "bluebird": "^3.3.4",
     "body-parser": "^1.14.1",
     "browserify-middleware": "^5.0.2",
     "cookie-session": "^1.2.0",
     "express": "^4.12.4",
+    "knex": "^0.10.0",
     "mithril": "^0.2.0",
     "node-makerpass": "^1.0.4",
     "passport": "^0.3.2",
-    "passport-makerpass": "^2.0.0"
+    "passport-makerpass": "^2.0.0",
+    "pg": "^4.5.1"
   },
   "devDependencies": {
     "chai": "^3.4.0",

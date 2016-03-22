@@ -33,11 +33,21 @@ routes.use(bodyParser.json())
 //
 var API = require('./lib/api-helpers')
 
-require('./makerpass').mount(routes, host)
+// require('./makerpass').mount(routes, host)
 
 routes.use('/api/me',
   API.authSession(),
   require('./apis/account-api')
+)
+
+routes.use('/api/interviews',
+ API.authSession(),
+ require('./apis/interview-api')
+)
+
+routes.use('/api/users',
+  // API.authSession(),
+ require('./apis/users-api')
 )
 
 routes.use('/api/groups/:group_uid/status',

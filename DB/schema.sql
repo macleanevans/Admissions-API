@@ -1,8 +1,8 @@
 CREATE TABLE users (
   user_id SERIAL,
-  name varchar(60),
+  name varchar(80),
   email varchar(30),
-  gitub varchar(30),
+  github varchar(30),
   blackout date,
   PRIMARY KEY (user_id)
 );

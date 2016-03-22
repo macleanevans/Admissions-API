@@ -9,15 +9,12 @@ var router = module.exports = express.Router({ mergeParams: true })
 //WEB hook URL
 "http://example.com/api/crm/AppointmentCreated?name={applicant_name}&email={email}&github={github}"
 
-router.get('/', function (req, res) {
-  //need to figure out how to section of the sent url into a req object
-  Users.check(req,res)
-})
 
-router.get('/interviews/:id', function(req, res){
+router.get('/:id', function(req, res){
   //get all interviews by a user id
   Interview.showAll(req, res);
 })
+
 
 router.post('/create', function(req, res){
   //create an interviw
