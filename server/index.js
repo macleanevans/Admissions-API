@@ -41,13 +41,17 @@ routes.use('/api/me',
 )
 
 routes.use('/api/interviews',
- API.authSession(),
+ // API.authSession(),
  require('./apis/interview-api')
 )
 
 routes.use('/api/users',
   // API.authSession(),
  require('./apis/users-api')
+)
+
+routes.use('/api/interviewer',
+  require('./apis/interviewer-api')
 )
 
 routes.use('/api/groups/:group_uid/status',

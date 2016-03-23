@@ -2,8 +2,6 @@ var Promise = require('bluebird')
 var Model = require('../lib/create-model.js')
 var db = require('../../DB/database.js')
 var util = require('util')
-var pg = require('pg')
-var TestDB = require('../../DB/database.js')
 
 var Users = module.exports;
 
@@ -36,25 +34,25 @@ Users.check = function(req, res){
 }
 
 Users.setBlackout = function(req, res){
-  pg.connect(TestDB.connectString, function(err, client, done){
     var userEmail = req.email;
     var userBlackout = req.blackout;
-    client.query('INSERT INTO users WHERE email = $1 VALUES ($2)', [userEmail, userBlackout], function(err, response){
-      if(err){
-        done();
-        res.status(401).send(err);
-      } else {
+    db.raw('INSERT INTO users WHERE email = $1 VALUES ($2)', [userEmail, userBlackout]).then(function (response){
         res.status(201).send(response);
-      }
-    })
+  }).catch(function(err){
+      res.status(401).send(err);
   })
 }
 
 Users.getAll = function(req, res){
     db.raw('SELECT NAME FROM USERS').then(function(response){
       res.status(200).send(response)
-      .catch(function(err){
-        res.status(401).send({messgae: 'we broke this'});
-      })
+    }).catch(function(err){
+      res.status(401).send({messgae: 'we broke this'});
     })
+}
+
+
+Users.deleteTable = function() {
+  db.raw('TRUNCATE TABLE users');
+   return Promise.resolve();
 }

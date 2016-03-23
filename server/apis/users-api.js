@@ -4,10 +4,12 @@
 var express = require('express')
 var MP      = require('node-makerpass')
 var API     = require('../lib/api-helpers')
-var Interview = require('../models/interview.js')
 var Users = require('../models/users.js')
 
 var router = module.exports = express.Router({ mergeParams: true })
+
+//WEB hook URL
+// "http://example.com/api/crm/AppointmentCreated?name={applicant_name}&email={email}&github={github}"
 
 // /api/users/search
 router.get('/', function (req, res) {
