@@ -13,7 +13,7 @@ var router = module.exports = express.Router({ mergeParams: true })
 
 // /api/users/search
 router.get('/', function (req, res) {
-  //need to figure out how to section of the sent url into a req object
+  console.log("hit the users root on request")
   Users.check(req,res)
 })
 
@@ -23,6 +23,6 @@ router.get('/applicants', function(req, res){
   Users.getAll(req, res);
 })
 
-router.post('/blackout/:id', function(req, res){
+router.post('/blackout', function(req, res){
   Users.setBlackout(req, res);
 })
