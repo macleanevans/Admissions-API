@@ -1,12 +1,89 @@
 var m = require('mithril')
+var Users = require('../models/Users')
+console.log(Users.fetchAll)
 
-exports.controller = function (options) {}
+exports.controller = function (options) {
+  var ctrl = this;
+  ctrl.applicants = null;
+  console.log("ctrl", ctrl)
+  Users.fetchAll().then(function(response){
+    console.log("response", response)
+    ctrl.applicants = response;
+    console.log("got applicants", ctrl.applicants)
+  })
+
+}
 
 exports.view = function (ctrl, options) {
   return m('.my-component', [
-    m('h2', options.title)
+    m('h1', options.title),
+
+    ctrl.applicants.map(function(applicant){
+      return m('.applicant', [
+        m('div')
+      ])
+    })
   ])
 }
+
+// <div id="app" class = "container">
+//   <div class = "container">
+//     <div class = "jumbtron">
+//       <h1> (This persons) post interview report</h1>
+//       <p>
+//         Date
+//       </p>
+//     </div>
+//     <div class = "container">
+//       <form>
+//         Interviewee Full Name:<br>
+//         <input type="text" name="fullname"><br>
+//         Email:<br>
+//         <input type="text" name="email">
+//       </form>
+//     </div>
+//     <div class = "container">
+//       <form>
+//         Select interviewer name: <br>
+//         <select name="Interviewer">
+//           <!-- we are going to have to repeat all current fellows in the DB here as options -->
+//           <option value="mac">Mac Evans</option>
+//         </select>
+//         <br><br>
+//       </form>
+//     </div>
+//     <div class = "container">
+//       <div class = "row">
+//         <div class = "col-md-6">
+//           Technical Grade: <br />
+//           <select name="technicalGrade">
+//             <option value = "A">A</option>
+//             <option value = "B">B</option>
+//             <option value = "C">C</option>
+//             <option value = "D">D</option>
+//             <option value = "F">F</option>
+//           </select>
+//         </div>
+//         <div class = "col-md-6">
+//           Personal Grade: <br />
+//           <select name = "personalGrade">
+//             <option value = "A">A</option>
+//             <option value = "B">B</option>
+//             <option value = "C">C</option>
+//             <option value = "D">D</option>
+//             <option value = "F">F</option>
+//           </select>
+//         </div>
+//       </div>
+//     </div>
+//     <div class="container">
+//       Decision:
+//       <option value = "Accept">Accept</option>
+//       <option value = "Soft Reject">Soft Reject</option>
+//       <option value = "Hard Reject">Hard Reject</option>
+//     </div>
+//   </div>
+// </div>
 
 //This front end will serve as a replacement for the google docs after interview sheet
 

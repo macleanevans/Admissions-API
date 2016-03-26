@@ -18,8 +18,8 @@ m.route(document.getElementById('app'), '/', {
 
     view: function (ctrl) {
       return m('.app', [
-        m('h1', 'Node Catapult'),
-        m.component(MyComponent, { title: 'Welcome to my app!' })
+        // m('h1', 'Post interview report'),
+        m.component(MyComponent, { title: 'Post interview report' })
       ])
     }
   }

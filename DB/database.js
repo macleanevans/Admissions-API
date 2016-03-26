@@ -1,5 +1,16 @@
-var pg = require('pg');
+// Read configuration file
+var config = require('../knexfile.js')
 
-TestDB.connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/test';
+// Configure knex with the correct environment configuration
+var env = process.env.NODE_ENV || 'development'
+var db = require('knex')(config[env])
 
-var TestDB = module.exports;
+// Export the db object, which will be able to make database connections
+module.exports = db
+
+// Function for your testing suite
+db.deleteEverything = function () {
+  if (env !== 'test') return Promise.reject();
+  // TODO: Delete data from all tables (useful for testing)
+  // return db('users').truncate()
+}
