@@ -6,28 +6,26 @@ var util = require('util')
 var Users = module.exports;
 
 Users.check = function(req, res){
-  console.log("request", req.body.query)
   var email = req.body.query.email
   var name = req.body.query.name
   var github = req.body.query.github
   //return db.raw('SELECT user_id FROM users WHERE email = $1', [email])
   return db('users').select('*').where({email: email})
   .then(function (result){
-    console.log("result from users check", result);
     if(result.length === 0){
-      console.log("did not find anyone")
       //See if user exists
       return db('users').insert({name: name, email: email, github: github})
        .then(function(response){
+         return db('users').select('*').where({name: name})
+         .then(function(user){
+             res.status(200).send(user[0])
+           })
         // User is created, interview accepted
-        console.log("second response", response)
-        res.status(200).send(response)
       })
       .catch(function (err) {
         res.status(404).send({messsgae: err})
       })
     } else {
-      console.log("He/She exists")
       var today = new Date;
       if(result[0].blackout !== null || result[0].blackout > today){
         //User exists, see if they have a blackout period
@@ -49,14 +47,19 @@ Users.setBlackout = function(req, res){
     var monthChange = month + req.body.blackout;
 
     var newBlackout = (year + "-" + monthChange + "-" + day).toString();
-    console.log("newBlackout", newBlackout);
-      return db('users')
+    return db('users')
         .where('email', '=', userEmail)
         .update({
           blackout: newBlackout
         })
         .then(function(response){
-        res.status(201).send();
+          return db('users').select("*").where({email: userEmail})
+        .then(function(user){
+          res.status(201).send(user[0]);
+        })
+        .catch(function(err){
+          res.status(404).send(err)
+        })
   }).catch(function(err){
       res.status(401).send(err);
   })
@@ -64,8 +67,10 @@ Users.setBlackout = function(req, res){
 
 
 Users.getAll = function(req, res){
-    return db.select('name').from('users').where('name', '!=', 'null')
+  console.log("inside of getAll")
+    return db('users').select('*')
       .then(function(response){
+        console.log("response of select all", response)
         res.status(200).send(response);
       })
       .catch(function(err){
@@ -73,9 +78,25 @@ Users.getAll = function(req, res){
       })
 }
 
+Users.interviewsByUser= function(req, res){
+  console.log("all interviews by user req",req)
+  //show all interviews by user
+    return db('users').select('email').where('user_id', '=', req.body.query)
+    .then(function(response){
+      console.log("response in users select")
+
+    })
+}
+
+Users.getAllSoftRejects = function(req, res){
+  var today = new Date();
+  return db('users').select().where('blackout', '<=', today)
+  .then(function(response){
+
+  })
+}
+
 
 Users.deleteTable = function() {
-  db.raw('TRUNCATE TABLE users');
-   return Promise.resolve();
-   //db('users').truncate();
+  return db.raw('truncate table users cascade')
 }

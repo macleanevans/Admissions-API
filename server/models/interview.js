@@ -8,28 +8,22 @@ var Interview = module.exports;
 
 
 Interview.create = function(req, res){
-    db.raw('INSERT INTO interviews (user_id, interviewer_id, decision_id, technical_grade, personal_grade, maker_prep_id, notes)  SELECT user_id, interviewer_id, decision_id, technical_grade, personal_grade, maker_prep_id, $1 FROM users, interviewer, decision, grades tech, grades personal, maker_prep WHERE users.email = $2 AND interviewer.full_name = $3 AND decision.descripition = $4 AND tech.description = $5 AND personal.description = $6 AND maker_prep.description = $7 ', [req.notes, req.email, req.interviewer, req.decision, req.technicalGrade, req.personalGrade, req.makerPrep]).then(function(response){
-        res.status(201).send(response);
-    }).catch(function(err){
-      res.status(401).send(err);
-   })
-  }
+  console.log("creat function is running")
+  var userEmail = req.body.email
+  var decision = req.body.decision_id
+  var technicalGrade = req.body.technical_grade;
+  var personalGrade = req.body.personal_grade;
+  var makerPrep = req.body.maker_prep;
+  var notes = req.body.notes;
+  var interviewer = req.body.interviewer_name
 
-Interview.showAll = function(req, res){
-  //show all interviews by user
-    db.raw('SELECT interview_id FROM interviews WHERE users.email = $1', [req.email]).then(function(response){
-      if(response.rows.length === 0){
-        res.status(200).send({message: "No interviews by this user...yet"})
-      } else {
-        res.status(200).send(response.rows);
-        }
-  }).catch(function(err){
-    res.status(401).send(err);
+  db('users').select("user_id").where("email", userEmail)
+  .then(function(user){
+    console.log("user", user)
   })
 }
 
 
 Interview.deleteTable = function() {
-  db.raw('TRUNCATE TABLE interviews')
-  return Promise.resolve();
+  return db.raw('truncate table interviews cascade')
 }
