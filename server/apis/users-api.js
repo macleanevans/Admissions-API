@@ -13,16 +13,18 @@ var router = module.exports = express.Router({ mergeParams: true })
 
 // /api/users/search
 router.get('/', function (req, res) {
-  console.log("hit the users root on request")
   Users.check(req,res)
 })
 
-router.get('/applicants', function(req, res){
-  console.log("hey")
-  //Get all usernames
-  Users.getAll(req, res);
+router.get('/all', function(req, res){
+  console.log("hit the all route")
+  Users.getAll(req, res)
 })
 
 router.post('/blackout', function(req, res){
-  Users.setBlackout(req, res);
+  Users.setBlackout(req,res);
+})
+
+router.get('/:id', function(req, res){
+  Users.get
 })

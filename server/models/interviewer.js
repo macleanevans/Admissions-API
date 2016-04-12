@@ -7,15 +7,41 @@ var Interviewer = module.exports;
 
 
 Interviewer.create = function(req, res) {
-  db.raw('INSERT INTO interviewer (full_name) VALUES ($1)', [req.interviewer_name]).then(function(response){
-      res.status(201).send(response);
-    })
-    .catch(function(err){
-      res.status(401).send(err);
+ return db('interviewer').select().where('full_name', req.body.full_name)
+  .then(function(response){
+    if(response.length > 0){
+      res.status(404).send({message: "Fellow already exists"})
+    } else {
+       db('interviewer').insert({full_name: req.body.full_name})
+         .then(function(response){
+           return db('interviewer').select().where('full_name', req.body.full_name)
+           .then(function(fellow){
+             res.status(201).send(fellow[0])
+           })
+           .catch(function(err){
+             res.status(404).send(err)
+           })
+         })
+         .catch(function(err){
+           res.status(404).send(err)
+         })
+    }
   })
 }
+//Cant delete because the old interviews would not have an id to reference
 
-Interviewer.deleteTable = function(){
-  db.raw('TRUNCATE TABLE interviewers');
-  return Promise.resolve();
+// Interviewer.remove = function(req, res) {
+//   console.log("req.body", req.body)
+//   return db('interviewer').del().where('full_name', req.body.full_name)
+//     .then(function(response){
+//       console.log("delete a fellow", response);
+//       res.status(200).send(response)
+//     })
+//     .catch(function(err){
+//       res.status(404).send(err)
+//     })
+// }
+
+Interviewer.deleteTable = function() {
+  return db.raw('truncate table interviewer cascade')
 }

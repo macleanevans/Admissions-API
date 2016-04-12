@@ -16,5 +16,6 @@ router.get('/:id', function(req, res){
 
 router.post('/create', function(req, res){
   //create an interviw
+  console.log("hit create")
   Interview.create(req, res);
 })

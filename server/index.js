@@ -40,7 +40,7 @@ routes.use('/api/me',
   require('./apis/account-api')
 )
 
-routes.use('/api/interviews',
+routes.use('/api/interview',
  // API.authSession(),
  require('./apis/interview-api')
 )
