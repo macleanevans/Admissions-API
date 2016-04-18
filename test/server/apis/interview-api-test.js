@@ -33,9 +33,9 @@ describe("The Server", function() {
     currentUser = { uid: 'alice', name: 'Alice' }
     memberedGroups = [{ uid: 'g1', user_role: 'fellow' }]
 
-    yield Interview.deleteTable()
-    yield Interviewer.deleteTable()
-    yield Users.deleteTable()
+     Interview.deleteTable()
+     Interviewer.deleteTable()
+     Users.deleteTable()
 
   })
 
@@ -51,7 +51,7 @@ describe("The Server", function() {
     .expect(201)
 
     yield request(app)
-    .post('api/interview/create')
+    .post('/api/interview/create')
     .send({userEmail: user.body.email,
        interviewer_name: fellow.body.full_name,
        decision: "accept",
@@ -59,10 +59,11 @@ describe("The Server", function() {
        personalGrade: "A",
        makerPrep: "no",
        notes: "This kid knows his stuff"
-      })
+     })
     .expect(201)
     .expect(function(response){
-      console.log(response.body)
+      console.log("interview test", response.body[0])
+      expect(response.body[0].technical_grade).to.equal("A")
     })
   })
 })

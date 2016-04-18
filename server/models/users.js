@@ -67,10 +67,8 @@ Users.setBlackout = function(req, res){
 
 
 Users.getAll = function(req, res){
-  console.log("inside of getAll")
     return db('users').select('*')
       .then(function(response){
-        console.log("response of select all", response)
         res.status(200).send(response);
       })
       .catch(function(err){
@@ -78,13 +76,26 @@ Users.getAll = function(req, res){
       })
 }
 
-Users.interviewsByUser= function(req, res){
-  console.log("all interviews by user req",req)
+Users.interviewsByUser = function(req, res){
+  console.log("req body",req.body.email)
   //show all interviews by user
-    return db('users').select('email').where('user_id', '=', req.body.query)
-    .then(function(response){
-      console.log("response in users select")
-
+   db('users').select('user_id').where('email',req.body.email)
+    .then(function(userID){
+      var user = userID[0]
+      db('interviews').select("*")
+      .then(function(response){
+        if(response.length > 0){
+          res.status(200).send(response)
+        } else {
+          res.status(404).send({message: "No interviews by this user"})
+        }
+      })
+      .catch(function(err){
+        res.status(404).send(err)
+      })
+    })
+    .catch(function(err){
+      res.status(404).send(err)
     })
 }
 
@@ -98,5 +109,5 @@ Users.getAllSoftRejects = function(req, res){
 
 
 Users.deleteTable = function() {
-  return db.raw('truncate table users cascade')
+  return Promise.resolve(db.raw('truncate table users cascade'))
 }

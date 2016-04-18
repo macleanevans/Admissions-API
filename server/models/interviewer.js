@@ -43,5 +43,5 @@ Interviewer.create = function(req, res) {
 // }
 
 Interviewer.deleteTable = function() {
-  return db.raw('truncate table interviewer cascade')
+  return Promise.resolve(db.raw('truncate table interviewer cascade'))
 }

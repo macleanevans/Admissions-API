@@ -8,22 +8,43 @@ var Interview = module.exports;
 
 
 Interview.create = function(req, res){
-  console.log("creat function is running")
-  var userEmail = req.body.email
-  var decision = req.body.decision_id
-  var technicalGrade = req.body.technical_grade;
-  var personalGrade = req.body.personal_grade;
-  var makerPrep = req.body.maker_prep;
+  var decision = req.body.decision
+  var technicalGrade = req.body.technicalGrade;
+  var personalGrade = req.body.personalGrade;
+  var makerPrep = req.body.makerPrep;
   var notes = req.body.notes;
-  var interviewer = req.body.interviewer_name
+  var interviewerID;
 
-  db('users').select("user_id").where("email", userEmail)
+  db('users').select("user_id").where("email", req.body.userEmail)
   .then(function(user){
-    console.log("user", user)
+    userID = user[0].user_id
+    return db('interviewer').select("interviewer_id").where("full_name", req.body.interviewer_name)
+    .then(function(interviewer){
+      interviewerID = interviewer[0].interviewer_id;
+      return db('interviews').insert({user_id: userID, interviewer_id: interviewerID, decision: decision, technical_grade: technicalGrade, personal_grade: personalGrade, maker_prep: makerPrep, notes: notes})
+        .then(function(response){
+          return db('interviews').select("*").where("user_id", userID)
+          .then(function(response){
+            res.status(201).send(response)
+          })
+          .catch(function(err){
+            res.status(404).send(err)
+          })
+        })
+        .catch(function(err){
+          res.status(404).send(err)
+        })
+    })
+    .catch(function(err){
+      res.status(404).send(err);
+    })
+  })
+  .catch(function(err){
+    res.status(404).send(err)
   })
 }
 
 
 Interview.deleteTable = function() {
-  return db.raw('truncate table interviews cascade')
+  return Promise.resolve(db.raw('truncate table interviews cascade'))
 }
