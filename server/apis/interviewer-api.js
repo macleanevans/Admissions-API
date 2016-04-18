@@ -11,8 +11,3 @@ var router = module.exports = express.Router({ mergeParams: true })
 router.post('/create', function(req, res) {
   Interviewer.create(req, res);
 })
-
-router.post('/remove', function(req,res){
-  console.log("hit the interviewer remove")
-  Interviewer.remove(req, res);
-})
