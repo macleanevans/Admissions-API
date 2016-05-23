@@ -11,32 +11,32 @@ Users.check = function(req, res){
   var github = req.body.query.github
   //return db.raw('SELECT user_id FROM users WHERE email = $1', [email])
   return db('users').select('*').where({email: email})
-  .then(function (result){
-    if(result.length === 0){
-      //See if user exists
-      return db('users').insert({name: name, email: email, github: github})
-        .then(function(response){
-          return db('users').select('*').where({name: name})
-        })
-        .then(function(user){
-          // User is created, interview accepted
-          res.status(200).send(user[0])
-        })
-        .catch(function (err) {
-          res.status(404).send({messsgae: err})
-        })
-    } else {
-      //Note: This case won't return a promise (may matter for future testing)
-      var today = new Date;
-      if(result[0].blackout !== null || result[0].blackout > today){
-        //User exists, see if they have a blackout period
-        res.status(404).send({message: "Please do not schedule an interview until after your reccomended time between interviews. Your earliest date would be " + result[0].blackout + ". If you have any questions please contact admissions at admissions@makersquare.com"})
-       } else {
-         //User has no blackout or is past the period, accept interview
-         res.status(200).send(result[0])
+    .then(function (result){
+      if(result.length === 0){
+        //See if user exists
+        return db('users').insert({name: name, email: email, github: github})
+          .then(function(response){
+            return db('users').select('*').where({name: name})
+          })
+          .then(function(user){
+            // User is created, interview accepted
+            res.status(200).send(user[0])
+          })
+      } else {
+        //Note: This case won't return a promise (may matter for future testing)
+        var today = new Date;
+        if(result[0].blackout !== null || result[0].blackout > today){
+          //User exists, see if they have a blackout period
+          res.status(404).send({message: "Please do not schedule an interview until after your reccomended time between interviews. Your earliest date would be " + result[0].blackout + ". If you have any questions please contact admissions at admissions@makersquare.com"})
+         } else {
+           //User has no blackout or is past the period, accept interview
+           res.status(200).send(result[0])
+         }
        }
-     }
-  })
+    })
+    .catch(function (err) {
+      res.status(404).send({message: err})
+    })
 }
 
 Users.setBlackout = function(req, res){

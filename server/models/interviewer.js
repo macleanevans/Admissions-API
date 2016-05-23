@@ -23,8 +23,7 @@ Interviewer.create = function(req, res) {
       }
     })
     .catch(function(err){
-      if(err !== undefined)
-        res.status(404).send(err)
+      res.status(404).send(err)
     })
 }
 //Cant delete because the old interviews would not have an id to reference
