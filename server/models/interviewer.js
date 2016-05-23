@@ -7,26 +7,25 @@ var Interviewer = module.exports;
 
 
 Interviewer.create = function(req, res) {
- return db('interviewer').select().where('full_name', req.body.full_name)
-  .then(function(response){
-    if(response.length > 0){
-      res.status(404).send({message: "Fellow already exists"})
-    } else {
-       db('interviewer').insert({full_name: req.body.full_name})
-         .then(function(response){
-           return db('interviewer').select().where('full_name', req.body.full_name)
-           .then(function(fellow){
-             res.status(201).send(fellow[0])
-           })
-           .catch(function(err){
-             res.status(404).send(err)
-           })
-         })
-         .catch(function(err){
-           res.status(404).send(err)
-         })
-    }
-  })
+  return db('interviewer').select("*").where('full_name', req.body.full_name)
+    .then(function(response){
+      if(response.length > 0){
+        //Note: This case will make promise resolve to undefined (may matter for future testing)
+        res.status(404).send({message: "Fellow already exists"})
+      } else {
+        return db('interviewer').insert({full_name: req.body.full_name})
+          .then(function(response){
+           return db('interviewer').select("*").where('full_name', req.body.full_name)
+          })
+          .then(function(fellow){
+            res.status(201).send(fellow[0])
+          })
+      }
+    })
+    .catch(function(err){
+      if(err !== undefined)
+        res.status(404).send(err)
+    })
 }
 //Cant delete because the old interviews would not have an id to reference
 
