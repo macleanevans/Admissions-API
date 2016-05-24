@@ -1,13 +1,13 @@
 {
-  "name": "node-catapult",
+  "name": "Admissions-API",
   "version": "1.0.0",
-  "description": "A rapid project starter for node and browserify.",
+  "description": "API to collect data on immersive candidates using Node.js, Express and PostgreSQL",
   "main": "server/index.js",
   "scripts": {
     "start": "nodemon server/index.js --ignore client/",
     "test": "./test/run.sh"
   },
-  "author": "Gilbert <gilbertbagrza@gmail.com>",
+  "author": "Mac Evans",
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.3.4",
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mindeavor/node-catapult"
+    "url": "https://github.com/macleanevans/Admissions-API"
   },
   "keywords": [
     "boilerplate",
@@ -41,7 +41,7 @@
     "mithril"
   ],
   "bugs": {
-    "url": "https://github.com/mindeavor/node-catapult/issues"
+    "url": "https://github.com/macleanevans/Admissions-API/issues"
   },
-  "homepage": "https://github.com/mindeavor/node-catapult"
+  "homepage": "https://github.com/macleanevans/Admissions-API"
 }

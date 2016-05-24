@@ -16,32 +16,23 @@ Interview.create = function(req, res){
   var interviewerID;
 
   db('users').select("user_id").where("email", req.body.userEmail)
-  .then(function(user){
-    userID = user[0].user_id
-    return db('interviewer').select("interviewer_id").where("full_name", req.body.interviewer_name)
+    .then(function(user){
+      userID = user[0].user_id
+      return db('interviewer').select("interviewer_id").where("full_name", req.body.interviewer_name)
+    })
     .then(function(interviewer){
       interviewerID = interviewer[0].interviewer_id;
-      return db('interviews').insert({user_id: userID, interviewer_id: interviewerID, decision: decision, technical_grade: technicalGrade, personal_grade: personalGrade, maker_prep: makerPrep, notes: notes})
-        .then(function(response){
-          return db('interviews').select("*").where("user_id", userID)
-          .then(function(response){
-            res.status(201).send(response)
-          })
-          .catch(function(err){
-            res.status(404).send(err)
-          })
-        })
-        .catch(function(err){
-          res.status(404).send(err)
-        })
+      return db('interviews').insert({user_id: userID, interviewer_id: interviewerID, decision: decision, technical_grade: technicalGrade, personal_grade: personalGrade, maker_prep: makerPrep, notes: notes})    
+    })
+    .then(function(response){
+      return db('interviews').select("*").where("user_id", userID)
+    })
+    .then(function(response){
+      res.status(201).send(response)
     })
     .catch(function(err){
-      res.status(404).send(err);
+      res.status(404).send(err)
     })
-  })
-  .catch(function(err){
-    res.status(404).send(err)
-  })
 }
 
 
