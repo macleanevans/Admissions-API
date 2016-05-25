@@ -32,24 +32,25 @@ require('./makerpass').mount(app, host)
 app.get('/app-bundle.js',
   browserify('./client/app.js'))
 
-// The home page should redirect to login if not authenticated. 
-// Can't do app.use or /* because it shouldn't check for /login
-app.get('/', 
-  API.authSession({ redirectOnFailure: '/login' }), 
+// Mount our main router
+app.use('/api', require('./apis/root-api'))
+
+// Don't check auth for /login
+app.get('/login', 
   function(req, res){ 
     res.sendFile( assetFolder + '/index.html' ) 
   }
 )
 
-// Mount our main router
-app.use('/api', require('./apis/root-api'))
-
 // The Catch-all Route
 // This is for supporting browser history pushstate.
 // NOTE: Make sure this route is always LAST.
-app.get('/*', function(req, res){
-  res.sendFile( assetFolder + '/index.html' )
-})
+app.get('/*', 
+  API.authSession({ redirectOnFailure: '/login' }),
+  function(req, res){
+    res.sendFile( assetFolder + '/index.html' )
+  }
+)
 
 // Serve Static Assets
 var assetFolder = Path.resolve(__dirname, '../client/public')
