@@ -34,7 +34,7 @@ exports.mount = function (app, host) {
               groups: subjects.groups.map( g => g.uid )
             }
           }
-          done(null, 1)
+          done(null, profile)
         })
         .catch(function (err) {
           console.log("Error getting admin status:", err)
@@ -43,7 +43,8 @@ exports.mount = function (app, host) {
     }
   ))
 
-  passport.serializeUser(function(_, done) { done(null, 1) })
+  passport.serializeUser(function(profile, done) { done(null, profile) })
+  passport.deserializeUser(function(profile, done) { done(null, profile) })
 
   app.use(passport.initialize())
 
@@ -52,12 +53,9 @@ exports.mount = function (app, host) {
 
   app.get('/auth/makerpass/callback',
     // Don't know how to skip serialize user; redirect home on this "failure".
-    passport.authenticate('makerpass', { failureRedirect: '/login' }),
-    function(req, res) {
-      // Successful authentication, redirect popup to exit page.
-      console.log("successful auth")
-      res.redirect('/')
-    })
+    // TODO: Need to call passport.authenticate again or can I just check req.user?
+    passport.authenticate('makerpass', { failureRedirect: '/login', successRedirect: '/' })
+  )
 
   app.post('/api/signout', function (req, res) {
     req.session = null
@@ -66,7 +64,7 @@ exports.mount = function (app, host) {
 
   app.get('/signout', function (req, res) {
     req.session = null
-    res.redirect('/')
+    res.redirect('/login')
   })
 
 }
