@@ -10,21 +10,15 @@ var routes = express.Router()
 var port = process.env.PORT || 4000
 var host = process.env.HOST || 'http://localhost:' + port
 
-//
-// JavaScript Assets
-//
-routes.get('/app-bundle.js',
-  browserify('./client/app.js'))
-
-
-//
 // API Routes
-//
 var API = require('./lib/api-helpers')
 
-require('./makerpass').mount(routes, host)
-
-routes.get('/', API.authSession({ redirectOnFailure: '/login' }), function(req, res){ res.sendFile( assetFolder + '/index.html' ) })
+routes.get('/', 
+  API.authSession({ redirectOnFailure: '/login' }), 
+  function(req, res){ 
+    res.sendFile( assetFolder + '/index.html' ) 
+  }
+)
 
 routes.use('/api/me',
   API.authSession(),
@@ -52,29 +46,20 @@ routes.use('/api/groups/:group_uid/status',
 )
 
 routes.get('/api/*', function(req, res) {
-  res.status(404).send({ reason: 'No such API endpoint' }) })
-
-//
-// Static assets (html, etc.)
-//
-var assetFolder = Path.resolve(__dirname, '../client/public')
-routes.use(express.static(assetFolder))
+  res.status(404).send({ reason: 'No such API endpoint' }) 
+})
 
 
 if (process.env.NODE_ENV !== 'test') {
-  //
   // The Catch-all Route
   // This is for supporting browser history pushstate.
   // NOTE: Make sure this route is always LAST.
-  //
   routes.get('/*', function(req, res){
     res.sendFile( assetFolder + '/index.html' )
   })
 
-  //
   // We're in development or production mode;
   // create and run a real server.
-  //
   var app = express()
 
   // Sessions
@@ -87,10 +72,21 @@ if (process.env.NODE_ENV !== 'test') {
   }))
 
   // Parse incoming request bodies as JSON
-  app.use( require('body-parser').json() )
+  app.use( bodyParser.json() )
+
+  // Configure Auth Strategies
+  require('./makerpass').mount(app, host)
+
+  // Serve JavaScript Assets
+  app.get('/app-bundle.js',
+    browserify('./client/app.js'))
 
   // Mount our main router
   app.use('/', routes)
+
+  // Serve Static Assets
+  var assetFolder = Path.resolve(__dirname, '../client/public')
+  app.use(express.static(assetFolder))
 
   // Start the server!
   app.listen(port)
