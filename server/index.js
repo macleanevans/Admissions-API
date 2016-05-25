@@ -5,58 +5,13 @@ var browserify = require('browserify-middleware')
 var pg = require('pg');
 var connectString = process.env.DATABASE_URL || 'postgres://localhost:5432/test';
 
-
-var routes = express.Router()
-var port = process.env.PORT || 4000
-var host = process.env.HOST || 'http://localhost:' + port
-
 // API Routes
 var API = require('./lib/api-helpers')
 
-routes.get('/', 
-  API.authSession({ redirectOnFailure: '/login' }), 
-  function(req, res){ 
-    res.sendFile( assetFolder + '/index.html' ) 
-  }
-)
-
-routes.use('/api/me',
-  API.authSession(),
-  require('./apis/account-api')
-)
-
-routes.use('/api/interview',
- API.authSession({ redirectOnFailure: '/login' }),
- require('./apis/interview-api')
-)
-
-routes.use('/api/users',
-  API.authSession({ redirectOnFailure: '/login' }),
-  require('./apis/users-api')
-)
-
-routes.use('/api/interviewer',
-  require('./apis/interviewer-api')
-)
-
-routes.use('/api/groups/:group_uid/status',
-  API.fetchGroups,
-  API.authMembership('group_uid'),
-  require('./apis/status-api')
-)
-
-routes.get('/api/*', function(req, res) {
-  res.status(404).send({ reason: 'No such API endpoint' }) 
-})
-
+var port = process.env.PORT || 4000
+var host = process.env.HOST || 'http://localhost:' + port
 
 if (process.env.NODE_ENV !== 'test') {
-  // The Catch-all Route
-  // This is for supporting browser history pushstate.
-  // NOTE: Make sure this route is always LAST.
-  routes.get('/*', function(req, res){
-    res.sendFile( assetFolder + '/index.html' )
-  })
 
   // We're in development or production mode;
   // create and run a real server.
@@ -81,8 +36,24 @@ if (process.env.NODE_ENV !== 'test') {
   app.get('/app-bundle.js',
     browserify('./client/app.js'))
 
+  // The home page should redirect to login if not authenticated. 
+  // Can't do app.use or /* because it shouldn't check for /login
+  app.get('/', 
+    API.authSession({ redirectOnFailure: '/login' }), 
+    function(req, res){ 
+      res.sendFile( assetFolder + '/index.html' ) 
+    }
+  )
+
   // Mount our main router
-  app.use('/', routes)
+  app.use('/api', require('./apis/root-api'))
+
+  // The Catch-all Route
+  // This is for supporting browser history pushstate.
+  // NOTE: Make sure this route is always LAST.
+  app.get('/*', function(req, res){
+    res.sendFile( assetFolder + '/index.html' )
+  })
 
   // Serve Static Assets
   var assetFolder = Path.resolve(__dirname, '../client/public')
