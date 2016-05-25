@@ -33,7 +33,10 @@ app.get('/app-bundle.js',
   browserify('./client/app.js'))
 
 // Mount our main router
-app.use('/api', require('./apis/root-api'))
+app.use('/api', 
+  API.authSession({ redirectOnFailure: '/login' }),
+  require('./apis/root-api')
+)
 
 // Don't check auth for /login
 app.get('/login', 
