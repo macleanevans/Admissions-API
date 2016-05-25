@@ -24,7 +24,7 @@ var API = require('./lib/api-helpers')
 
 require('./makerpass').mount(routes, host)
 
-routes.get('/', API.authSession({ redirectOnFailure: '/login' }), function(req, res){ res.send() })
+routes.get('/', API.authSession({ redirectOnFailure: '/login' }), function(req, res){ res.sendFile( assetFolder + '/index.html' ) })
 
 routes.use('/api/me',
   API.authSession(),
