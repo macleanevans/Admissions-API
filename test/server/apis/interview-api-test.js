@@ -1,7 +1,7 @@
 require(TEST_HELPER) // <--- This must be at the top of every test file.
 
 var request = require('supertest-as-promised')
-var routes = require(__server + '/index.js')
+var routes = require(__server + '/apis/root-api.js')
 var InterviewApi = require(__server + '/apis/interview-api.js')
 var Interview = require(__server + '/models/interview.js')
 var Interviewer = require(__server + '/models/interviewer.js')
