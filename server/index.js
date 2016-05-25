@@ -16,24 +16,15 @@ var host = process.env.HOST || 'http://localhost:' + port
 routes.get('/app-bundle.js',
   browserify('./client/app.js'))
 
-// Sessions
-var session = require('cookie-session')
-routes.use(session({
-  name: 'learn:session',
-  secret: process.env.SESSION_SECRET || 'development',
-  secure: (!! process.env.SESSION_SECRET),
-  signed: true
-}))
-
-// Parse request body as JSON
-routes.use(bodyParser.json())
 
 //
 // API Routes
 //
 var API = require('./lib/api-helpers')
 
-// require('./makerpass').mount(routes, host)
+require('./makerpass').mount(routes, host)
+
+routes.get('/', API.authSession({ redirectOnFailure: '/login' }), function(req, res){ res.send() })
 
 routes.use('/api/me',
   API.authSession(),
@@ -41,13 +32,13 @@ routes.use('/api/me',
 )
 
 routes.use('/api/interview',
- // API.authSession(),
+ API.authSession({ redirectOnFailure: '/login' }),
  require('./apis/interview-api')
 )
 
 routes.use('/api/users',
-  // API.authSession(),
- require('./apis/users-api')
+  API.authSession({ redirectOnFailure: '/login' }),
+  require('./apis/users-api')
 )
 
 routes.use('/api/interviewer',
@@ -85,6 +76,15 @@ if (process.env.NODE_ENV !== 'test') {
   // create and run a real server.
   //
   var app = express()
+
+  // Sessions
+  var session = require('cookie-session')
+  app.use(session({
+    name: 'learn:session',
+    secret: process.env.SESSION_SECRET || 'development',
+    secure: (!! process.env.SESSION_SECRET),
+    signed: true
+  }))
 
   // Parse incoming request bodies as JSON
   app.use( require('body-parser').json() )

@@ -1,5 +1,6 @@
 var m = require('mithril')
-var MyComponent = require('./components/MyComponent')
+var Interview = require('./components/interviewer')
+var Login = require('./components/login')
 
 //
 // Global variable for global state (e.g. currentUser)
@@ -19,9 +20,9 @@ m.route(document.getElementById('app'), '/', {
     view: function (ctrl) {
       return m('.app', [
         // m('h1', 'Post interview report'),
-        m.component(MyComponent, { title: 'Post interview report' })
+        m.component(Interview, { title: 'Post interview report' })
       ])
     }
-  }
-
+  },
+  '/login': Login
 })
