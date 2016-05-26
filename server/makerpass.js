@@ -66,5 +66,4 @@ exports.mount = function (app, host) {
     req.session = null
     res.redirect('/login')
   })
-
 }
