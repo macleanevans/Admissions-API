@@ -1,5 +1,6 @@
 var m = require('mithril')
 var Users = require('../models/Users')
+var Menu = require('./menu')
 
 // TODO: data validation, post request
 
@@ -11,67 +12,70 @@ module.exports.controller = function (options) {
 module.exports.view = function (ctrl, options) {
   var data = ctrl.interview;
 
-  return m('.my-component', [
-    m('h1', "Document your Interview"),
-    m('form', {
-      onsubmit: function(e){
-        e.preventDefault();
-        data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-        data.user.name   = e.currentTarget.getElementById("name")[0].value;
-        data.user.email  = e.currentTarget.getElementById("email")[0].value;
-        data.lookUpUser();
-      }
-    },[
-      m('select#interviewer-name', [
-        m('option[value=""]', "-Choose a Fellow-"),
-        m('option[value="Mat Kelly"]', "Mat Kelly"),
-        m('option[value="Nathan Schwartz"]', "Nathan Schwartz"),
-        m('option[value="Patrick Lynch"]', "Patrick Lynch"),
-        m('option[value="Patrick Daly"]', "Patrick Daly")
-      ]),
-      m('select#interview-decision', {
-        onchange: function(e){
-          // TODO: is there a better way to grab the value of this select menu
-          data.decision = document.getElementById("interview-decision").value
-          m.redraw()
+  return m('span',[
+    m(Menu),
+    m('span.content', [
+      m('h1', "Document your Interview"),
+      m('form', {
+        onsubmit: function(e){
+          e.preventDefault();
+          data.user.name   = e.currentTarget.getElementById("name")[0].value;
+          data.user.email  = e.currentTarget.getElementById("email")[0].value;
+          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
+          data.lookUpUser();
         }
       },[
-        m('option[value=""]', "-Decision-"),
-        m('option[value="Accept"]', "Accept"),
-        m('option[value="Conditional Accept"]', "Conditional Accept"),
-        m('option[value="Soft Reject"]', "Soft Reject"),
-        m('option[value="Hard Reject"]', "Hard Reject")
-      ]),
+        m('select#interviewer-name', [
+          m('option[value=""]', "-Choose a Fellow-"),
+          m('option[value="Mat Kelly"]', "Mat Kelly"),
+          m('option[value="Nathan Schwartz"]', "Nathan Schwartz"),
+          m('option[value="Patrick Lynch"]', "Patrick Lynch"),
+          m('option[value="Patrick Daly"]', "Patrick Daly")
+        ]),
+        m('select#interview-decision', {
+          onchange: function(e){
+            // TODO: is there a better way to grab the value of this select menu
+            data.decision = document.getElementById("interview-decision").value
+            m.redraw()
+          }
+        },[
+          m('option[value=""]', "-Decision-"),
+          m('option[value="Accept"]', "Accept"),
+          m('option[value="Conditional Accept"]', "Conditional Accept"),
+          m('option[value="Soft Reject"]', "Soft Reject"),
+          m('option[value="Hard Reject"]', "Hard Reject")
+        ]),
 
-      data.decision !== "Soft Reject"
-       ? null 
-       : m('input.timeout[type="number"]'),
+        data.decision !== "Soft Reject"
+         ? null 
+         : m('input.timeout[type="number"]'),
 
-      m('select#personal-grade', [
-        m('option[value=""]', "-Choose a Personal Grade-"),
-        m('option[value="A"]', "A"),
-        m('option[value="B"]', "B"),
-        m('option[value="C"]', "C"),
-        m('option[value="D"]', "D"),
-        m('option[value="F"]', "F")
-      ]),
+        m('select#personal-grade', [
+          m('option[value=""]', "-Choose a Personal Grade-"),
+          m('option[value="A"]', "A"),
+          m('option[value="B"]', "B"),
+          m('option[value="C"]', "C"),
+          m('option[value="D"]', "D"),
+          m('option[value="F"]', "F")
+        ]),
 
-      m('select#technical-grade', [
-        m('option[value=""]', "-Choose a Technical Grade-"),
-        m('option[value="A"]', "A"),
-        m('option[value="B"]', "B"),
-        m('option[value="C"]', "C"),
-        m('option[value="D"]', "D"),
-        m('option[value="F"]', "F")
+        m('select#technical-grade', [
+          m('option[value=""]', "-Choose a Technical Grade-"),
+          m('option[value="A"]', "A"),
+          m('option[value="B"]', "B"),
+          m('option[value="C"]', "C"),
+          m('option[value="D"]', "D"),
+          m('option[value="F"]', "F")
+        ]),
+        // TODO: Do notes need to be categorized based on exercise? 
+        m('input#interview-notes[placeholder="Notes"]'),
+        m("br"),
+        m('input.name[type="checkbox"]'),
+        m('span.name-label', "MakerPrep"),
+        m("br"),
+        m('button[type=submit]', "Submit")
       ]),
-      // TODO: Do notes need to be categorized based on exercise? 
-      m('input#interview-notes[placeholder="Notes"]'),
-      m("br"),
-      m('input.name[type="checkbox"]'),
-      m('span.name-label', "MakerPrep"),
-      m("br"),
-      m('button[type=submit]', "Submit")
-    ]),
+    ])
   ])
 }
 // <div id="app" class = "container">

@@ -1,12 +1,13 @@
 var m = require('mithril')
 var Users = require('../models/Users')
+var Menu = require('./menu')
 
 module.exports.controller = function (options) {
   var ctrl = this;
   ctrl.user = {};
   
   ctrl.lookUpUser = function(){
-  /*
+    /*
     // Check if user exists in DB
     //    if yes: Open other forms for interview info
     //    if no: ask if they want to enter it manually (if yes proceed)
@@ -30,30 +31,10 @@ module.exports.controller = function (options) {
   }
 }
 
-// TODO: persistent isn't working
-//a configuration that persists across route changes
-function persistent(el, isInit, context) {
-    context.retain = true
-
-    if (!isInit) {
-        //only runs once, even if you move back and forth between `/` and `/contact`
-        // doSomethingExpensive(el)
-    }
-}
-
 module.exports.view = function (ctrl, options) {
 
-  return m('.my-component', [
-    m('span.sidebar', {config: persistent}, [
-      m('img.profile-picture[src='+getCookie('picture')+']'),
-      m('div.profile-name', getCookie('name')),
-      m('button', {
-        class: "button-ghost",
-        onclick:function(){
-          window.location.href = '/signout'
-        }
-      }, "Sign Out")
-    ]),
+  return m('span', [
+    m(Menu),
     m('span.content', [
       m('h1', 'Document your Interview'),
       m('form', {
@@ -75,11 +56,5 @@ module.exports.view = function (ctrl, options) {
       ]),
     ])
   ])
-}
-
-function getCookie(name){
-  var re = new RegExp(name + "=([^;]+)");
-  var value = re.exec(document.cookie);
-  return (value != null) ? unescape(value[1]) : null;
 }
 
