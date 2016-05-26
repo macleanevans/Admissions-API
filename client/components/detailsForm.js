@@ -15,7 +15,7 @@ module.exports.view = function (ctrl, options) {
   return m('span',[
     m(Menu),
     m('span.content', [
-      m('h1', "Document your Interview"),
+      m('h1', "Interview Details"),
       m('form', {
         onsubmit: function(e){
           e.preventDefault();
@@ -32,6 +32,7 @@ module.exports.view = function (ctrl, options) {
           m('option[value="Patrick Lynch"]', "Patrick Lynch"),
           m('option[value="Patrick Daly"]', "Patrick Daly")
         ]),
+        m('br'),
         m('select#interview-decision', {
           onchange: function(e){
             // TODO: is there a better way to grab the value of this select menu
@@ -50,6 +51,8 @@ module.exports.view = function (ctrl, options) {
          ? null 
          : m('input.timeout[type="number"]'),
 
+        m('br'),
+
         m('select#personal-grade', [
           m('option[value=""]', "-Choose a Personal Grade-"),
           m('option[value="A"]', "A"),
@@ -59,6 +62,8 @@ module.exports.view = function (ctrl, options) {
           m('option[value="F"]', "F")
         ]),
 
+        m('br'),
+
         m('select#technical-grade', [
           m('option[value=""]', "-Choose a Technical Grade-"),
           m('option[value="A"]', "A"),
@@ -67,6 +72,9 @@ module.exports.view = function (ctrl, options) {
           m('option[value="D"]', "D"),
           m('option[value="F"]', "F")
         ]),
+
+        m('br'),
+        
         // TODO: Do notes need to be categorized based on exercise? 
         m('input#interview-notes[placeholder="Notes"]'),
         m("br"),

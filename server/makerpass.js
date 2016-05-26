@@ -76,16 +76,11 @@ exports.mount = function (app, host) {
   })
 
   app.get('/signout', function (req, res) {
-    // res.clearCookie("picture")
-    // res.clearCookie("name")
-    // res.clearCookie("email")
-    // res.clearCookie("learn:session")
-    // res.clearCookie("learn:session.sig")
-    res.cookie("picture",           "", { expires: new Date() });
-    res.cookie("name",              "", { expires: new Date() });
-    res.cookie("email",             "", { expires: new Date() });
-    res.cookie("learn:session",     "", { expires: new Date() });
-    res.cookie("learn:session.sig", "", { expires: new Date() });
+    res.clearCookie("picture")
+    res.clearCookie("name")
+    res.clearCookie("email")
+    res.clearCookie("learn:session")
+    res.clearCookie("learn:session.sig")
 
     req.session = null
     res.redirect('/')
