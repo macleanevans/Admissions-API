@@ -9,10 +9,12 @@ module.exports.controller = function (options) {
 }
 
 module.exports.view = function (ctrl, options) {
-  return m('.my-component', [
-    m('.auth-container', [
-      m("button[type=button]", {onclick: ctrl.authenticate}, "Login")
-    ]),
+  return m('.auth-container', [
+    m('div', "You are not signed in."),
+    m("button[type=button]", {
+      class: "button-ghost",
+      onclick: ctrl.authenticate
+    }, "Sign In")
   ])
 }
 

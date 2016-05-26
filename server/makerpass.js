@@ -67,17 +67,27 @@ exports.mount = function (app, host) {
       res.cookie("email", App.email)
       res.redirect('/')
     }
-
-
   )
 
+  // TODO: Why does this one exist?
   app.post('/api/signout', function (req, res) {
     req.session = null
     res.send({})
   })
 
   app.get('/signout', function (req, res) {
+    // res.clearCookie("picture")
+    // res.clearCookie("name")
+    // res.clearCookie("email")
+    // res.clearCookie("learn:session")
+    // res.clearCookie("learn:session.sig")
+    res.cookie("picture",           "", { expires: new Date() });
+    res.cookie("name",              "", { expires: new Date() });
+    res.cookie("email",             "", { expires: new Date() });
+    res.cookie("learn:session",     "", { expires: new Date() });
+    res.cookie("learn:session.sig", "", { expires: new Date() });
+
     req.session = null
-    res.redirect('/login')
+    res.redirect('/')
   })
 }

@@ -43,20 +43,16 @@ function persistent(el, isInit, context) {
 
 module.exports.view = function (ctrl, options) {
 
-
-
   return m('.my-component', [
     m('span.sidebar', {config: persistent}, [
       m('img.profile-picture[src='+getCookie('picture')+']'),
       m('div.profile-name', getCookie('name')),
       m('button', {
-        class: "signout",
+        class: "button-ghost",
         onclick:function(){
-          // TODO: Do I need both signout methods?
-          m.request({method: "POST", url: "/api/signout"})
           window.location.href = '/signout'
         }
-      }, "Logout")
+      }, "Sign Out")
     ]),
     m('span.content', [
       m('h1', 'Document your Interview'),

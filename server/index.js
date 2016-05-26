@@ -1,6 +1,7 @@
 var Path = require('path')
 var express = require('express')
 var bodyParser = require('body-parser')
+var cookieParser = require('cookie-parser')
 var browserify = require('browserify-middleware')
 var pg = require('pg');
 var connectString = process.env.DATABASE_URL || 'postgres://localhost:5432/test';
@@ -24,6 +25,10 @@ app.use(session({
 
 // Parse incoming request bodies as JSON
 app.use( bodyParser.json() )
+
+// TODO: Do we need cookie parser as well as cookie-session
+// Parse cookies
+app.use( cookieParser() )
 
 // Configure Auth Strategies
 require('./makerpass').mount(app, host)
