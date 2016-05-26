@@ -12,8 +12,11 @@ Interview.create = function(req, res){
   var technicalGrade = req.body.technicalGrade;
   var personalGrade = req.body.personalGrade;
   var makerPrep = req.body.makerPrep;
-  var notes = req.body.notes;
   var interviewerID;
+  var technicalNotes = req.body.technicalNotes;
+  var personalNotes = req.body.personalNotes;
+  var decisionNotes = req.body.decisionNotes;
+
 
   db('users').select("user_id").where("email", req.body.userEmail)
     .then(function(user){
@@ -22,7 +25,7 @@ Interview.create = function(req, res){
     })
     .then(function(interviewer){
       interviewerID = interviewer[0].interviewer_id;
-      return db('interviews').insert({user_id: userID, interviewer_id: interviewerID, decision: decision, technical_grade: technicalGrade, personal_grade: personalGrade, maker_prep: makerPrep, notes: notes})    
+      return db('interviews').insert({user_id: userID, interviewer_id: interviewerID, decision: decision, technical_grade: technicalGrade, personal_grade: personalGrade, maker_prep: makerPrep, personal_notes: personalNotes, technical_notes: technicalNotes, descision_notes: decisionNotes})
     })
     .then(function(response){
       return db('interviews').select("*").where("user_id", userID)

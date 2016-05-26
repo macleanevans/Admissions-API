@@ -13,7 +13,7 @@ module.exports.view = function (ctrl, options) {
   var data = ctrl.interview;
 
   return m('span',[
-    m(Menu),
+    m.component(Menu),
     m('span.content', [
       m('h1', "Interview Details"),
       m('form', {
@@ -48,7 +48,7 @@ module.exports.view = function (ctrl, options) {
         ]),
 
         data.decision !== "Soft Reject"
-         ? null 
+         ? null
          : m('input.timeout[type="number"]'),
 
         m('br'),
@@ -74,8 +74,8 @@ module.exports.view = function (ctrl, options) {
         ]),
 
         m('br'),
-        
-        // TODO: Do notes need to be categorized based on exercise? 
+
+        // TODO: Do notes need to be categorized based on exercise?
         m('input#interview-notes[placeholder="Notes"]'),
         m("br"),
         m('input.name[type="checkbox"]'),

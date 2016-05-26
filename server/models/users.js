@@ -69,6 +69,23 @@ Users.setBlackout = function(req, res){
     })
 }
 
+Users.checkOne = function(req, res){
+  var email = req.body.email;
+  return db('users').select("*").where({email: email})
+  .then(function(response){
+    if(response.length === 0){
+      res.status(404).send(err);
+    }
+    res.status(200).send();
+  });
+}
+
+Users.addHuman = function(req, res){
+  return db('users').insert({email: req.body.email, github: req.body.email, name: req.body.name})
+  .then(function(response){
+
+  })
+}
 
 Users.getAll = function(req, res){
   // Function will return a promise that will resolve to undefined
@@ -105,7 +122,11 @@ Users.getAllSoftRejects = function(req, res){
   var today = new Date();
   return db('users').select("*").where('blackout', '<=', today)
   .then(function(response){
-
+    console.log(response);
+    res.status(201).send(response);
+  })
+  .catch(function(err){
+    res.status(404).send(err);
   })
 }
 

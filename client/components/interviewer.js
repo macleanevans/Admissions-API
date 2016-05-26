@@ -5,7 +5,7 @@ var Menu = require('./menu')
 module.exports.controller = function (options) {
   var ctrl = this;
   ctrl.user = {};
-  
+
   ctrl.lookUpUser = function(){
     /*
     // Check if user exists in DB
@@ -34,7 +34,7 @@ module.exports.controller = function (options) {
 module.exports.view = function (ctrl, options) {
 
   return m('span', [
-    m(Menu),
+    m.component(Menu),
     m('span.content', [
       m('h1', 'Document your Interview'),
       m('form', {
@@ -57,4 +57,3 @@ module.exports.view = function (ctrl, options) {
     ])
   ])
 }
-

@@ -27,3 +27,11 @@ router.post('/blackout', function(req, res){
 router.get('/search', function(req, res){
   Users.interviewsByUser(req,res);
 })
+
+router.get('/find', function(req,res){
+  Users.checkOne(req,res);
+})
+
+router.post('/add', function(req, res){
+  Users.addHuman(req, res)
+})
