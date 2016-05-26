@@ -5,6 +5,7 @@ var passport = require('passport')
 var MP = require('node-makerpass')
 var MakerpassStrategy = require('passport-makerpass').Strategy
 
+var App = {}
 
 exports.mount = function (app, host) {
 
@@ -34,6 +35,11 @@ exports.mount = function (app, host) {
               groups: subjects.groups.map( g => g.uid )
             }
           }
+
+          App.picture = profile.avatar_url
+          App.name = profile.name
+          App.email = profile.email
+
           done(null, profile)
         })
         .catch(function (err) {
@@ -54,7 +60,15 @@ exports.mount = function (app, host) {
   app.get('/auth/makerpass/callback',
     // Don't know how to skip serialize user; redirect home on this "failure".
     // TODO: Need to call passport.authenticate again or can I just check req.user?
-    passport.authenticate('makerpass', { failureRedirect: '/login', successRedirect: '/' })
+    passport.authenticate('makerpass', { failureRedirect: '/login' }),
+    function (req, res){
+      res.cookie("picture", App.picture)
+      res.cookie("name", App.name)
+      res.cookie("email", App.email)
+      res.redirect('/')
+    }
+
+
   )
 
   app.post('/api/signout', function (req, res) {
