@@ -1,0 +1,19 @@
+html, body{
+  margin:0;
+  padding:0;
+  position: relative;
+  display: block;
+}
+
+.profile-picture{
+  width: 100px;
+  height: 100px;
+}
+
+.sidebar{
+  position: fixed;
+  left:0;
+  height: 100%;
+  width: 30%;
+  background-image: linear-gradient(45deg, #6e23be 0%, rgba(115, 35, 190, 0) 70%), linear-gradient(135deg, #643399 10%, rgba(104, 51, 153, 0) 80%), linear-gradient(225deg, #6921b5 10%, rgba(110, 33, 181, 0) 80%), linear-gradient(315deg, #6923b3 100%, rgba(109, 35, 179, 0) 70%);
+}
