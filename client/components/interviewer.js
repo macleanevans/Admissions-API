@@ -5,20 +5,18 @@ var Menu = require('./menu')
 module.exports.controller = function (options) {
   var ctrl = this;
   ctrl.user = {};
-  ctrl.userData = {} //storing the user's info (from the database) here for now. Not sure if we will need it later.
 
   ctrl.lookUpUser = function(){
     // Check if user exists in DB
     //    if yes: Open other forms for interview info
     //    if no: ask if they want to enter it manually (if yes proceed)
-
     m.request({
       method: "GET",
       url: "/api/users/check",
       data: ctrl.user
     })
     .then(function(results){
-      ctrl.userData = results
+      App.userInfo = results
       m.route('/form')
     })
     .catch(function(err){
@@ -30,8 +28,11 @@ module.exports.controller = function (options) {
             data: ctrl.user
           })
           .then(function(results){
-            ctrl.userData = results
+            App.userInfo = results
             m.route('/form')
+          })
+          .catch(function(results){
+            console.log("bad stuff happened in lookUpUser. arguments: ",arguments)
           })
         } else {
           console.log("User didn't want to create a new student.")

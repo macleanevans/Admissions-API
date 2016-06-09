@@ -19,6 +19,7 @@ CREATE TABLE interviews (
   technical_notes text,
   personal_grade  varchar(2),
   personal_notes text,
+  maker_prep  varchar(5),
   PRIMARY KEY (interview_id)
 );
 

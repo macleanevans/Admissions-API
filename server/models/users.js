@@ -16,7 +16,7 @@ Users.check = function(req, res){
       if(result.length === 0){
         res.status(404).send({message: "User was not found."})
       } else {
-        res.status(200).send({message: "User was found."})
+        res.status(200).send(result[0])
       }
     })
     .catch(function (err) {

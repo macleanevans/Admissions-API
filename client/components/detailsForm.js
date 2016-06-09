@@ -6,7 +6,35 @@ var Menu = require('./menu')
 
 module.exports.controller = function (options) {
   var ctrl = this;
-  ctrl.interview = {};
+  ctrl.interview = {
+    interviewerName: "",
+    decisionNotes: "",
+    blackoutPeriod: undefined, // Number
+    technicalGrade: "",
+    technicalGradeNotes: "",
+    personalGrade: "",
+    personalGradeNotes: ""
+  };
+
+  ctrl.createInterview = function(){
+
+    if(App.userInfo === undefined || App.userInfo.email === undefined)
+      throw new Error("We needed an email and didn't get one.")
+
+    var dataWithEmail = Object.assign({}, ctrl.interview, { userEmail: App.userInfo.email })
+
+    m.request({
+      method: "POST",
+      url: "/api/interview/create",
+      data: dataWithEmail
+    })
+    .then(function(results){
+      console.log("results from post", arguments)
+    })
+    .catch(function(results){
+      console.log("ERROR: results from post", arguments)
+    })
+  }
 }
 
 module.exports.view = function (ctrl, options) {
@@ -19,19 +47,20 @@ module.exports.view = function (ctrl, options) {
       m('form', {
         onsubmit: function(e){
           e.preventDefault();
-          data.name   = e.currentTarget.getElementById("name").value;
-          data.email  = e.currentTarget.getElementById("email").value;
-          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-          data.interviewer = e.currentTarget.getElementById("interviewer-name").value;
-          data.lookUpUser();
+          data.interviewerName = document.getElementById("interviewer-name").value;
+          data.decisionNotes = document.getElementById("decision-notes").value;
+          data.technicalGrade = document.getElementById("technical-grade").value;
+          data.technicalGradeNotes = document.getElementById("technical-grade-notes").value;
+          data.personalGrade = document.getElementById("personal-grade").value;
+          data.personalGradeNotes = document.getElementById("personal-grade-notes").value;
+
+          if(data.blackoutPeriod === "Soft Reject")
+            data.blackoutPeriod = document.getElementById("blackout-period").value;
+
+          ctrl.createInterview();
         }
       },[
+        // TODO: Pull these names from the backend "interviewer" table
         m('select#interviewer-name', [
           m('option[value=""]', "-Choose a Fellow-"),
           m('option[value="Mat Kelly"]', "Mat Kelly"),
@@ -56,7 +85,7 @@ module.exports.view = function (ctrl, options) {
 
         data.decision !== "Soft Reject"
          ? null 
-         : m('input#timeout[type="number"]'),
+         : m('input#blackout-period[type="number"]'),
 
         m('br'),
 
@@ -77,6 +106,8 @@ module.exports.view = function (ctrl, options) {
 
         m('input#personal-grade-notes[type="number"placeholder="Why?"]'),
 
+        m('br'),
+
         m('select#technical-grade', [
           m('option[value=""]', "-Choose a Technical Grade-"),
           m('option[value="A"]', "A"),
@@ -88,12 +119,8 @@ module.exports.view = function (ctrl, options) {
 
         m('br'),
 
-        m('input#personal-grade-notes[type="number"placeholder="Why?"]'),
+        m('input#technical-grade-notes[type="number"placeholder="Why?"]'),
 
-        m('br'),
-
-        m('input.name[type="checkbox"]'),
-        m('span.name-label', "MakerPrep"),
         m("br"),
         m('button[type=submit]', "Submit")
       ]),

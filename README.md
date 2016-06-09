@@ -29,6 +29,7 @@ API to collect data on immersive candidates using Node.js, Express and PostgreSQ
 
 `NODE_ENV=test knex migrate:latest` to apply schemas to the test database.
 
+`knex seed:run` to seed the database.
 
 
 # Endpoints 
