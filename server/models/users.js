@@ -6,9 +6,29 @@ var util = require('util')
 var Users = module.exports;
 
 Users.check = function(req, res){
-  var email = req.body.query.email
-  var name = req.body.query.name
-  var github = req.body.query.github
+  var email = req.query.email
+  var name = req.query.name
+  var github = req.query.github
+
+  //return db.raw('SELECT user_id FROM users WHERE email = $1', [email])
+  return db('users').select('*').where({email: email})
+    .then(function (result){
+      if(result.length === 0){
+        res.status(404).send({message: "User was not found."})
+      } else {
+        res.status(200).send({message: "User was found."})
+      }
+    })
+    .catch(function (err) {
+      res.status(404).send({message: err})
+    })
+}
+
+Users.findOrCreate = function(req, res){
+  var email = req.body.email
+  var name = req.body.name
+  var github = req.body.github
+
   //return db.raw('SELECT user_id FROM users WHERE email = $1', [email])
   return db('users').select('*').where({email: email})
     .then(function (result){
@@ -20,7 +40,7 @@ Users.check = function(req, res){
           })
           .then(function(user){
             // User is created, interview accepted
-            res.status(200).send(user[0])
+            res.status(201).send(user[0])
           })
       } else {
         //Note: This case won't return a promise (may matter for future testing)

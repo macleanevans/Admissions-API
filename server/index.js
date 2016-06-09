@@ -26,7 +26,6 @@ app.use(session({
 // Parse incoming request bodies as JSON
 app.use( bodyParser.json() )
 
-// TODO: Do we need cookie parser as well as cookie-session
 // Parse cookies
 app.use( cookieParser() )
 

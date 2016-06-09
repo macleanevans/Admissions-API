@@ -5,29 +5,41 @@ var Menu = require('./menu')
 module.exports.controller = function (options) {
   var ctrl = this;
   ctrl.user = {};
-  
+  ctrl.userData = {} //storing the user's info (from the database) here for now. Not sure if we will need it later.
+
   ctrl.lookUpUser = function(){
-    /*
     // Check if user exists in DB
     //    if yes: Open other forms for interview info
     //    if no: ask if they want to enter it manually (if yes proceed)
 
-    //pseudocode
-    isAKnownApplicant(ctrl.user)
-      .then(function(results){
-        if(results.exists || confirm('User not found, would you like to create a new one?'))
-          window.location.href = '/form' || m.route('/form')
-        else
-          alert("Please try again.")
-          // This will eventually be a modal or something
-          // for now I want to know when it happens.
-      })
-      .catch(function(err){
-        if(err)
-          console.log("Error while doing user lookup in interviewer.js")
-      })
-    */
-    m.route('/form')
+    m.request({
+      method: "GET",
+      url: "/api/users/check",
+      data: ctrl.user
+    })
+    .then(function(results){
+      ctrl.userData = results
+      m.route('/form')
+    })
+    .catch(function(err){
+      if(err.message === "User was not found.") {
+        if(confirm('User not found, would you like to create a new one?')) {
+          m.request({
+            method: "POST",
+            url: "/api/users/findOrCreate",
+            data: ctrl.user
+          })
+          .then(function(results){
+            ctrl.userData = results
+            m.route('/form')
+          })
+        } else {
+          console.log("User didn't want to create a new student.")
+        }
+      } else {
+        console.log("Error while doing user lookup in interviewer.js", arguments)
+      }
+    })
   }
 }
 
@@ -57,4 +69,3 @@ module.exports.view = function (ctrl, options) {
     ])
   ])
 }
-

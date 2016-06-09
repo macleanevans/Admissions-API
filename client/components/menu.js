@@ -15,18 +15,12 @@ module.exports = {
   }
 }
 
-// TODO: persistent isn't working
-//a configuration that persists across route changes
+// Configuration that persists across route changes
 function persistent(el, isInit, context) {
-    context.retain = true
-
-    // if (!isInit) {
-    //     //only runs once, even if you move back and forth between `/` and `/contact`
-    //     // doSomethingExpensive(el)
-    // }
+  context.retain = true
 }
 
-
+// Utility to retrieve cookies
 function getCookie(name){
   var re = new RegExp(name + "=([^;]+)");
   var value = re.exec(document.cookie);
