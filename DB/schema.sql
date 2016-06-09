@@ -14,12 +14,11 @@ CREATE TABLE interviews (
   user_id INTEGER,
   interviewer_id INTEGER,
   decision varchar(50),
-  descision_notes text,
+  decision_notes text,
   technical_grade varchar(2),
   technical_notes text,
   personal_grade  varchar(2),
   personal_notes text,
-  maker_prep  varchar(5),
   PRIMARY KEY (interview_id)
 );
 
