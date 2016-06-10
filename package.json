@@ -18,7 +18,6 @@
     "express": "^4.12.4",
     "google-auth-library": "^0.9.8",
     "googleapis": "^7.1.0",
-    "isomorphic-fetch": "^2.2.1",
     "knex": "^0.10.0",
     "mithril": "^0.2.0",
     "node-makerpass": "^1.0.4",
