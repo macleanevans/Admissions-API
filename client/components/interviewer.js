@@ -1,5 +1,4 @@
 var m = require('mithril')
-var Users = require('../models/Users')
 var Menu = require('./menu')
 
 module.exports.controller = function (options) {

@@ -8,16 +8,21 @@ module.exports = {
       m('button', {
         class: "button-ghost",
         onclick:function(){
-          window.location.href = '/signout'
+          m.route('/')
         }
-      }, "Sign Out"),
-      m('br'),
+      }, "Record Interview"),
       m('button', {
         class: "button-ghost",
         onclick:function(){
           m.route('/search')
         }
-      }, "Search Applicants")
+      }, "Search Applicants"),
+      m('button', {
+        class: "button-ghost bottom",
+        onclick:function(){
+          window.location.href = '/signout'
+        }
+      }, "Sign Out"),
     ])
   }
 }

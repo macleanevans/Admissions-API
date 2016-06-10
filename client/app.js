@@ -24,17 +24,7 @@ m.request({
 //
 m.route.mode = 'pathname'
 m.route(document.getElementById('app'), '/', {
-
-  '/': {
-    // Controllers are optional
-    // controller: function () {},
-
-    view: function (ctrl) {
-      return m('.app', [
-        m.component(Interview, { title: 'Post interview report' })
-      ])
-    }
-  },
+  '/': Interview,
   '/login': Login,
   '/form': Form,
   '/search': Search

@@ -1,5 +1,4 @@
 var m = require('mithril')
-var Users = require('../models/Users')
 var Menu = require('./menu')
 
 // TODO: data validation, post request
@@ -9,7 +8,7 @@ module.exports.controller = function (options) {
   ctrl.interview = {
     interviewerName: "",
     decisionNotes: "",
-    blackoutPeriod: undefined, // Number
+    blackoutPeriod: 0,
     technicalGrade: "",
     technicalGradeNotes: "",
     personalGrade: "",

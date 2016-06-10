@@ -1,5 +1,4 @@
 var m = require('mithril')
-var Users = require('../models/Users')
 
 module.exports.controller = function (options) {
   var ctrl = this;
