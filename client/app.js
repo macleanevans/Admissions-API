@@ -3,7 +3,7 @@ var Interview = require('./components/interviewer')
 var Login = require('./components/login')
 var Form = require('./components/detailsForm')
 var Search = require('./components/searchApplicants')
-
+var Denied = require('./components/permissionDenied')
 //
 // Global variable for global state (e.g. currentUser)
 //
@@ -27,5 +27,6 @@ m.route(document.getElementById('app'), '/', {
   '/': Interview,
   '/login': Login,
   '/form': Form,
-  '/search': Search
+  '/search': Search,
+  '/nope': Denied
 })

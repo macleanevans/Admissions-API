@@ -11,6 +11,10 @@ var router = module.exports = express.Router({ mergeParams: true })
 //WEB hook URL
 // "http://example.com/api/crm/AppointmentCreated?name={applicant_name}&email={email}&github={github}"
 
+router.get('/', function (req, res) {
+  Users.deprecated(req,res)
+})
+
 router.get('/check', function (req, res) {
   Users.check(req,res)
 })
