@@ -16,8 +16,6 @@ module.exports.controller = function (options) {
     personalGradeNotes: ""
   };
 
-  // console.log("thing", App.interviewers.map(function(a){ return m('option[value='hi']', "hi") }) )
-
   ctrl.createInterview = function(){
 
     if(App.userInfo === undefined || App.userInfo.email === undefined)
@@ -59,7 +57,9 @@ module.exports.view = function (ctrl, options) {
           if(data.blackoutPeriod === "Soft Reject")
             data.blackoutPeriod = document.getElementById("blackout-period").value;
 
+          // TODO: Error handling? Form validation?
           ctrl.createInterview();
+          m.route('/')
         }
       },[
         // TODO: Pull these names from the backend "interviewer" table

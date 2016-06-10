@@ -9,9 +9,9 @@ var router = module.exports = express.Router({ mergeParams: true })
 // "http://example.com/api/crm/AppointmentCreated?name={applicant_name}&email={email}&github={github}"
 
 
-router.get('/:id', function(req, res){
+router.get('/:githubId', function(req, res){
   //get all interviews by a user id
-  Interview.showAll(req, res);
+  Interview.getByGithub(req, res);
 })
 
 router.post('/create', function(req, res){
