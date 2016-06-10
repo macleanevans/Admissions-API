@@ -6,14 +6,57 @@ html, body{
 }
 
 .profile-picture{
-  width: 100px;
+  width: 75px;
+  height: 75px;
+  border-radius: 75px;
+  border: 1px black;
+  display: block;
+  margin: 5px auto;
+  margin-top: 100px
+}
+
+.profile-name{
+  text-align: center;
+  color: white;
+}
+
+.content{
+  margin-left: 25%;
+  padding-top: 50px;
+  display: block;
+}
+
+.auth-container{
+  color: white;
+  background-image: linear-gradient(45deg, #6e23be 0%, rgba(115, 35, 190, 0) 70%), linear-gradient(135deg, #643399 10%, rgba(104, 51, 153, 0) 80%), linear-gradient(225deg, #6921b5 10%, rgba(110, 33, 181, 0) 80%), linear-gradient(315deg, #6923b3 100%, rgba(109, 35, 179, 0) 70%);
+  position: fixed;
+  top:0;
+  width: 100%;
   height: 100px;
+}
+.auth-container > div{
+  text-align: center;
+  margin: 5px auto;
+}
+
+.button-ghost{
+  display: block;
+  text-align: center;
+  color: white;
+  background: transparent;
+  border: 2px solid white;
+  margin: 5px auto;
+}
+.button-ghost:hover{
+  color: #6e23be;
+  background: white;
+  border: 2px solid white;
 }
 
 .sidebar{
   position: fixed;
   left:0;
   height: 100%;
-  width: 30%;
+  width: 20%;
   background-image: linear-gradient(45deg, #6e23be 0%, rgba(115, 35, 190, 0) 70%), linear-gradient(135deg, #643399 10%, rgba(104, 51, 153, 0) 80%), linear-gradient(225deg, #6921b5 10%, rgba(110, 33, 181, 0) 80%), linear-gradient(315deg, #6923b3 100%, rgba(109, 35, 179, 0) 70%);
 }

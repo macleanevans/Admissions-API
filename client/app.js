@@ -30,7 +30,6 @@ m.route(document.getElementById('app'), '/', {
 
     view: function (ctrl) {
       return m('.app', [
-        // m('h1', 'Post interview report'),
         m.component(Interview, { title: 'Post interview report' })
       ])
     }

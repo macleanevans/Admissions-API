@@ -49,6 +49,12 @@ app.get('/login',
   }
 )
 
+app.get('/style.css',
+  function(req, res){
+    res.sendFile( assetFolder + '/style.css')
+  }
+)
+
 // The Catch-all Route
 // This is for supporting browser history pushstate.
 // NOTE: Make sure this route is always LAST.
