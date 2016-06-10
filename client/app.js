@@ -2,6 +2,7 @@ var m = require('mithril')
 var Interview = require('./components/interviewer')
 var Login = require('./components/login')
 var Form = require('./components/detailsForm')
+var Search = require('./components/searchApplicants')
 
 //
 // Global variable for global state (e.g. currentUser)
@@ -35,5 +36,6 @@ m.route(document.getElementById('app'), '/', {
     }
   },
   '/login': Login,
-  '/form': Form
+  '/form': Form,
+  '/search': Search
 })

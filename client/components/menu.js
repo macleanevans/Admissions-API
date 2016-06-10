@@ -10,7 +10,14 @@ module.exports = {
         onclick:function(){
           window.location.href = '/signout'
         }
-      }, "Sign Out")
+      }, "Sign Out"),
+      m('br'),
+      m('button', {
+        class: "button-ghost",
+        onclick:function(){
+          m.route('/search')
+        }
+      }, "Search Applicants")
     ])
   }
 }
