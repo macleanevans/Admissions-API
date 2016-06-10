@@ -20,12 +20,12 @@ module.exports.controller = function (options) {
     if(App.userInfo === undefined || App.userInfo.email === undefined)
       throw new Error("We needed an email and didn't get one.")
 
-    var dataWithEmail = Object.assign({}, ctrl.interview, { userEmail: App.userInfo.email })
+    var dataWithUserInfo = Object.assign({}, ctrl.interview, App.userInfo)
 
     m.request({
       method: "POST",
       url: "/api/interview/create",
-      data: dataWithEmail
+      data: dataWithUserInfo
     })
     .then(function(results){
       console.log("results from post", arguments)

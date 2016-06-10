@@ -66,7 +66,7 @@ Users.findOrCreate = function(req, res){
   var github = req.body.github
 
   //return db.raw('SELECT user_id FROM users WHERE email = $1', [email])
-  return db('users').select('*').where({email: email})
+  return db('users').select('*').where({github: github})
     .then(function (result){
       if(result.length === 0){
         //See if user exists

@@ -16,6 +16,7 @@ module.exports.controller = function (options) {
       url: "/api/interview/" + ctrl.github,
     })
     .then(function(results){
+      console.log(results)
       ctrl.interviews = results;
       m.redraw()
     })
