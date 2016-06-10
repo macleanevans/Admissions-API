@@ -8,6 +8,16 @@ var Form = require('./components/detailsForm')
 //
 window.App = {}
 
+
+// Store list of interviewers in the global variable
+m.request({
+  method: 'GET',
+  url: "/api/interviewer/all"
+})
+.then(function(results){
+  window.App.interviewers = results.map(a => a.full_name)
+})
+
 //
 // Client-side routing
 //

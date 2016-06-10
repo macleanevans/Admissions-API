@@ -8,9 +8,7 @@ var Interview = module.exports;
 // TODO: update to work with new schema
 
 Interview.create = function(req, res){
-
-  console.log("stuff sent:", req.body)
-
+  
   var data = {
     decision        : req.body.decision,
     technical_grade : req.body.technicalGrade,

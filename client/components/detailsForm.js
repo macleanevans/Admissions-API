@@ -16,6 +16,8 @@ module.exports.controller = function (options) {
     personalGradeNotes: ""
   };
 
+  // console.log("thing", App.interviewers.map(function(a){ return m('option[value='hi']', "hi") }) )
+
   ctrl.createInterview = function(){
 
     if(App.userInfo === undefined || App.userInfo.email === undefined)
@@ -62,11 +64,8 @@ module.exports.view = function (ctrl, options) {
       },[
         // TODO: Pull these names from the backend "interviewer" table
         m('select#interviewer-name', [
-          m('option[value=""]', "-Choose a Fellow-"),
-          m('option[value="Mat Kelly"]', "Mat Kelly"),
-          m('option[value="Nathan Schwartz"]', "Nathan Schwartz"),
-          m('option[value="Patrick Lynch"]', "Patrick Lynch"),
-          m('option[value="Patrick Daly"]', "Patrick Daly")
+            m('option[value=""]', "-Choose an Interviewer-"),
+            ...App.interviewers.map(name => m('option[value='+name+']', name))
         ]),
         m('br'),
         m('select#interview-decision', {
