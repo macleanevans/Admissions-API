@@ -7,8 +7,8 @@ var Users = module.exports;
 
 
 Users.deprecated = function(req, res){
-  var email = req.query.email
-  var name = req.query.name
+  var email  = req.query.email
+  var name   = req.query.name
   var github = req.query.github
 
   //return db.raw('SELECT user_id FROM users WHERE email = $1', [email])

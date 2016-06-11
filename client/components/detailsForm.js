@@ -43,7 +43,7 @@ module.exports.view = function (ctrl, options) {
     m(Menu),
     m('span.content', [
       m('h1', "Interview Details"),
-      m('form', {
+      m('form.user-info', {
         onsubmit: function(e){
           e.preventDefault();
           data.interviewerName = document.getElementById("interviewer-name").value;
@@ -120,7 +120,7 @@ module.exports.view = function (ctrl, options) {
         m('input#technical-grade-notes[type="number"placeholder="Why?"]'),
 
         m("br"),
-        m('button[type=submit]', "Submit")
+        m('button.button-inverse-ghost[type=submit]', "Submit")
       ]),
     ])
   ])

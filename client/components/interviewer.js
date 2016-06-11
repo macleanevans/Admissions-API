@@ -48,8 +48,8 @@ module.exports.view = function (ctrl, options) {
   return m('span', [
     m(Menu),
     m('span.content', [
-      m('h1', 'Document your Interview'),
-      m('form', {
+      m('h1', 'Select an Applicant'),
+      m('form.user-info', {
         onsubmit: function(e){
           e.preventDefault();
           ctrl.user.github = e.currentTarget.getElementsByClassName('github')[0].value;
@@ -64,7 +64,7 @@ module.exports.view = function (ctrl, options) {
         m('br'),
         m('input.email[placeholder="Email"]'),
         m('br'),
-        m('button[type=submit]', 'Submit')
+        m('button.button-inverse-ghost[type=submit]', 'Submit')
       ]),
     ])
   ])

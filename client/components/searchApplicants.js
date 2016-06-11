@@ -32,7 +32,7 @@ module.exports.view = function (ctrl, options) {
     m(Menu),
     m('span.content', [
       m('h1', 'Search Interviews by Applicant Github'),
-      m('form', {
+      m('form.user-info', {
         onsubmit: function(e){
           e.preventDefault();
           ctrl.github = e.currentTarget.getElementsByClassName('github')[0].value;
@@ -40,7 +40,7 @@ module.exports.view = function (ctrl, options) {
         }
       },[
         m('input.github[placeholder="Github Handle"]'),
-        m('button[type=submit]', 'Submit')
+        m('button.button-inverse-ghost[type=submit]', 'Submit')
       ]),
       m('span.interview-list', [
         ctrl.interviews.map(c=>

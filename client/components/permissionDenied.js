@@ -9,7 +9,10 @@ module.exports.controller = function (options) {
 
 module.exports.view = function (ctrl, options) {
   return m('.auth-container', [
+    m('br'),
+    m('br'),
     m('div', "You are not authorized to view this site."),
+    m('br'),
     m("button[type=button]", {
       class: "button-ghost",
       onclick: ctrl.signout
