@@ -9,7 +9,7 @@ var host = process.env.HOST || 'http://localhost:' + port
 var API = require('../lib/api-helpers')
 
 routes.use('/me',
-  API.authSession(),
+  API.authSession({ redirectOnFailure: '/login' }),
   require('../apis/account-api')
 )
 
@@ -24,10 +24,12 @@ routes.use('/users',
 )
 
 routes.use('/interviewer',
+  API.authSession({ redirectOnFailure: '/login' }),
   require('../apis/interviewer-api')
 )
 
 routes.use('/groups/:group_uid/status',
+  API.authSession({ redirectOnFailure: '/login' }),
   API.fetchGroups,
   API.authMembership('group_uid'),
   require('../apis/status-api')

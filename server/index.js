@@ -26,7 +26,6 @@ app.use(session({
 // Parse incoming request bodies as JSON
 app.use( bodyParser.json() )
 
-// TODO: Do we need cookie parser as well as cookie-session
 // Parse cookies
 app.use( cookieParser() )
 
@@ -47,6 +46,12 @@ app.use('/api',
 app.get('/login', 
   function(req, res){ 
     res.sendFile( assetFolder + '/index.html' ) 
+  }
+)
+
+app.get('/style.css',
+  function(req, res){
+    res.sendFile( assetFolder + '/style.css')
   }
 )
 

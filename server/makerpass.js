@@ -4,6 +4,7 @@
 var passport = require('passport')
 var MP = require('node-makerpass')
 var MakerpassStrategy = require('passport-makerpass').Strategy
+var fetch = require("isomorphic-fetch")
 
 var App = {}
 
@@ -62,18 +63,33 @@ exports.mount = function (app, host) {
     // TODO: Need to call passport.authenticate again or can I just check req.user?
     passport.authenticate('makerpass', { failureRedirect: '/login' }),
     function (req, res){
-      res.cookie("picture", App.picture)
-      res.cookie("name", App.name)
-      res.cookie("email", App.email)
-      res.redirect('/')
+
+      var isAdmin = !!req.session.admin
+      var isFellow = false
+      var isInstructor = false
+
+      MP.me.groups(req.session.accessToken).then(function(groups) {
+
+        groups.forEach(function(cohorts){
+          if(cohorts.user_role === 'fellow')     isFellow = true
+          if(cohorts.user_role === 'instructor') isInstructor = true
+        })
+
+        isAdmin = !!req.session.admin
+
+      })
+      .then(function(){
+        if(!isInstructor && !isAdmin && !isFellow) {
+          res.redirect('/nope')
+        } else {
+          res.cookie("picture", App.picture)
+          res.cookie("name", App.name)
+          res.cookie("email", App.email)
+          res.redirect('/')
+        }
+      })
     }
   )
-
-  // TODO: Why does this one exist?
-  app.post('/api/signout', function (req, res) {
-    req.session = null
-    res.send({})
-  })
 
   app.get('/signout', function (req, res) {
     res.clearCookie("picture")

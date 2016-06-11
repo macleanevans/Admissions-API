@@ -27,7 +27,7 @@ describe("The Server", function() {
 
 
   app.use('/api/interview', InterviewApi)
-  app.use('/api/users', UsersApi)
+  app.use('/api/users/', UsersApi)
   app.use('/api/interviewer', InterviewerApi)
   // GET  /api/users
   // GET  /api/users/applicants
@@ -46,7 +46,7 @@ describe("The Server", function() {
   it_("sends back a 200 if the user isnt already in our system", function * () {
 
     yield request(app)
-      .get('/api/users')
+      .get('/api/users/findOrCreate')
       .send({query: {name: "Gilbert", email: "GGG@makersquare.com", github: "Wizard"}})
       .expect(200)
       .expect(function(response) {
@@ -57,7 +57,7 @@ describe("The Server", function() {
 
     it_("should be able to set a blackout period for a user", function * (){
       var user = yield request(app)
-        .get('/api/users')
+        .get('/api/users/findOrCreate')
         .send({query: {name: "Gilbert", email: "GGG@makersquare.com", github: "Wizard"}})
         .expect(200)
         .then(function(response){
@@ -76,7 +76,7 @@ describe("The Server", function() {
     it_("should send back 404 if the user is not past their blackout peroid", function * (){
 
       var user = yield request(app)
-       .get('/api/users')
+       .get('/api/users/findOrCreate')
        .send({query: {name: "Gilbert", email: "GGG@makersquare.com", github: "Wizard"}})
 
       var blackout = yield request(app)
@@ -85,7 +85,7 @@ describe("The Server", function() {
          .expect(201)
 
       yield request(app)
-       .get('/api/users')
+       .get('/api/users/findOrCreate')
        .send({query: {email: 'GGG@makersquare.com'}})
        .expect(404)
        .expect(function(response){
@@ -95,7 +95,7 @@ describe("The Server", function() {
 
     it_("sends back a 200 if they are in the system and do not have a blackout", function * (){
       var user = yield request(app)
-       .get('/api/users')
+       .get('/api/users/findOrCreate')
        .send({query: {name: "Mac", email: "ME@makersquare.com", github: "Maclean"}})
        .expect(function(response){
          user = response.body
@@ -103,7 +103,7 @@ describe("The Server", function() {
 
 
       yield request(app)
-       .get('/api/users')
+       .get('/api/users/findOrCreate')
        .send({query: {email: "ME@makersquare.com"}})
        .expect(200)
        .expect(function(response){
@@ -114,12 +114,12 @@ describe("The Server", function() {
 
     it_("Should be able to get names of all users in the system", function * (){
       yield request(app)
-      .get('/api/users')
+      .get('/api/users/findOrCreate')
       .send({query: {name: "Gilbert", email: "GGG@makersquare.com", github: "Wizard"}})
       .expect(200)
 
      yield request(app)
-     .get('/api/users')
+     .get('/api/users/findOrCreate')
      .send({query: {name: "Mac", email: "me@makersquare.com", github: "maclean"}})
      .expect(200)
 
@@ -133,7 +133,7 @@ describe("The Server", function() {
 
     it_("should be able to get all interviews by one user", function*(){
       var user = yield request(app)
-        .get('/api/users')
+        .get('/api/users/findOrCreate')
         .send({query: {name: "Gilbert", email: "GGG@makersquare.com", github: "Wizard"}})
         .expect(200)
         .expect(function(user){

@@ -11,3 +11,7 @@ var router = module.exports = express.Router({ mergeParams: true })
 router.post('/create', function(req, res) {
   Interviewer.create(req, res);
 })
+
+router.get('/all', function(req, res) {
+  Interviewer.retrieve(req, res);
+})

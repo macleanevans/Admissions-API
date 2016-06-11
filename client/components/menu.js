@@ -8,25 +8,31 @@ module.exports = {
       m('button', {
         class: "button-ghost",
         onclick:function(){
+          m.route('/')
+        }
+      }, "Record Interview"),
+      m('button', {
+        class: "button-ghost",
+        onclick:function(){
+          m.route('/search')
+        }
+      }, "Search Applicants"),
+      m('button', {
+        class: "button-ghost bottom",
+        onclick:function(){
           window.location.href = '/signout'
         }
-      }, "Sign Out")
+      }, "Sign Out"),
     ])
   }
 }
 
-// TODO: persistent isn't working
-//a configuration that persists across route changes
+// Configuration that persists across route changes
 function persistent(el, isInit, context) {
-    context.retain = true
-
-    // if (!isInit) {
-    //     //only runs once, even if you move back and forth between `/` and `/contact`
-    //     // doSomethingExpensive(el)
-    // }
+  context.retain = true
 }
 
-
+// Utility to retrieve cookies
 function getCookie(name){
   var re = new RegExp(name + "=([^;]+)");
   var value = re.exec(document.cookie);

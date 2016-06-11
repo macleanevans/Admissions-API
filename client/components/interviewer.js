@@ -1,33 +1,45 @@
 var m = require('mithril')
-var Users = require('../models/Users')
 var Menu = require('./menu')
 
 module.exports.controller = function (options) {
   var ctrl = this;
   ctrl.user = {};
-  
+
   ctrl.lookUpUser = function(){
-    /*
     // Check if user exists in DB
     //    if yes: Open other forms for interview info
     //    if no: ask if they want to enter it manually (if yes proceed)
-
-    //pseudocode
-    isAKnownApplicant(ctrl.user)
-      .then(function(results){
-        if(results.exists || confirm('User not found, would you like to create a new one?'))
-          window.location.href = '/form' || m.route('/form')
-        else
-          alert("Please try again.")
-          // This will eventually be a modal or something
-          // for now I want to know when it happens.
-      })
-      .catch(function(err){
-        if(err)
-          console.log("Error while doing user lookup in interviewer.js")
-      })
-    */
-    m.route('/form')
+    m.request({
+      method: "GET",
+      url: "/api/users/check",
+      data: ctrl.user
+    })
+    .then(function(results){
+      App.userInfo = results
+      m.route('/form')
+    })
+    .catch(function(err){
+      if(err.message === "User was not found.") {
+        if(confirm('User not found, would you like to create a new one?')) {
+          m.request({
+            method: "POST",
+            url: "/api/users/findOrCreate",
+            data: ctrl.user
+          })
+          .then(function(results){
+            App.userInfo = results
+            m.route('/form')
+          })
+          .catch(function(results){
+            console.log("bad stuff happened in lookUpUser. arguments: ",arguments)
+          })
+        } else {
+          console.log("User didn't want to create a new student.")
+        }
+      } else {
+        console.log("Error while doing user lookup in interviewer.js", arguments)
+      }
+    })
   }
 }
 
@@ -36,8 +48,8 @@ module.exports.view = function (ctrl, options) {
   return m('span', [
     m(Menu),
     m('span.content', [
-      m('h1', 'Document your Interview'),
-      m('form', {
+      m('h1', 'Select an Applicant'),
+      m('form.user-info', {
         onsubmit: function(e){
           e.preventDefault();
           ctrl.user.github = e.currentTarget.getElementsByClassName('github')[0].value;
@@ -52,9 +64,8 @@ module.exports.view = function (ctrl, options) {
         m('br'),
         m('input.email[placeholder="Email"]'),
         m('br'),
-        m('button[type=submit]', 'Submit')
+        m('button.button-inverse-ghost[type=submit]', 'Submit')
       ]),
     ])
   ])
 }
-

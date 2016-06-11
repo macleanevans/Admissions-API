@@ -26,6 +26,20 @@ Interviewer.create = function(req, res) {
       res.status(404).send(err)
     })
 }
+
+Interviewer.retrieve = function(req, res) {
+  return db('interviewer').select("full_name")
+    .then(function(response){
+      if(response.length > 0){
+        //Note: This case will make promise resolve to undefined (may matter for future testing)
+        res.status(200).send(response)
+      } 
+    })
+    .catch(function(err){
+      res.status(404).send(err)
+    })
+}
+
 //Cant delete because the old interviews would not have an id to reference
 
 // Interviewer.remove = function(req, res) {
