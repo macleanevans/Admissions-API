@@ -6,7 +6,6 @@ html, body{
 
 }
 
-
 h1{
   margin-left: 20%;
   font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
@@ -112,3 +111,13 @@ input{
   padding: 30px;
   margin: 20px;
 }
+
+.interview-item{
+  background: #E6E6F2;
+  padding: 30px;
+  margin: 20px;
+  /*width:100%;*/
+  /*height: 100px;*/
+}
+
+

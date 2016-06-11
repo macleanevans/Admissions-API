@@ -44,7 +44,7 @@ module.exports.view = function (ctrl, options) {
       ]),
       m('span.interview-list', [
         ctrl.interviews.map(c=>
-          m('span.interview-item', [
+          m('div.interview-item', [
             m('div.decision', "Decision:" + c.decision),
             m('div.decision_notes', "Decision Notes:" + c.decision_notes),
             m('div.maker_prep', "Maker Prep:" + c.maker_prep),
